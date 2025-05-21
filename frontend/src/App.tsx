@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Footer from './components/shared/Footer';
 import About from './pages/About';
 import Authentication from './pages/Authentication';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<Landing />} />
         <Route path='/about' element={<About />} />
         <Route path='/get-started' element={<Authentication />} />
+        <Route path='/dashboard' element={<Dashboard />} />
       </Routes>
       <Footer/>
     </Router>
