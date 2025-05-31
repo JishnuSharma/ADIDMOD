@@ -4,6 +4,7 @@ import DeviceCard, {
 } from "../components/dashboard/DeviceCard";
 import EditDeviceModal from "../components/dashboard/DevicePopup";
 import Headings from "../components/shared/Headings";
+import SearchBar from "../components/dashboard/SearchBar";
 
 const deviceData = [
     {
@@ -96,11 +97,10 @@ const deviceData = [
         time: new Date("2025-05-11T18:25:00"),
         imageUrl: "/images/device/humidity.jpg",
     },
-] as const satisfies     DeviceCardProps[];
+] as const satisfies DeviceCardProps[];
 
 const Dashboard = () => {
-    const [devices, setDevices] =
-        useState<DeviceCardProps[]>(deviceData);
+    const [devices, setDevices] = useState<DeviceCardProps[]>(deviceData);
     const [selectedDevice, setSelectedDevice] =
         useState<DeviceCardProps | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,8 +124,13 @@ const Dashboard = () => {
                 <div className="text-2xl">
                     <b>Total Devices:</b> 29
                 </div>
-                <div className="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-400 cursor-pointer">
-                    Add New Device
+                <div className="flex gap-10 items-center">
+                    <div>
+                        <SearchBar/>
+                    </div>
+                    <div className="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-400 cursor-pointer">
+                        Add New Device
+                    </div>
                 </div>
             </div>
             <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
