@@ -6,6 +6,7 @@ import Footer from './components/shared/Footer';
 import About from './pages/About';
 import Authentication from './pages/Authentication';
 import Dashboard from './pages/Dashboard';
+import MyProfile from './pages/MyProfile';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/get-started' element={<Authentication />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/profile' element={<MyProfile/>}/>
       </Routes>
       <Footer/>
     </Router>
