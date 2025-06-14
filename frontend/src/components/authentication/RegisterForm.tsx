@@ -88,7 +88,7 @@ const RegisterForm = () => {
 
     return (
         <div className="mt-20 w-5/10">
-            <div className="text-center text-purple-900 text-4xl font-bold py-3">
+            <div className="text-center text-slate-900 text-4xl font-bold py-3">
                 REGISTER WITH ADIDMOD
             </div>
             <form
@@ -155,7 +155,7 @@ const RegisterForm = () => {
 
                 <button
                     type="submit"
-                    className="w-full px-4 py-2 text-center rounded-lg hover:bg-purple-600 transition duration-300 cursor-pointer bg-purple-900 text-white text-lg mt-5"
+                    className="w-full px-4 py-2 text-center rounded-lg hover:bg-slate-600 transition duration-300 cursor-pointer bg-slate-900 text-white text-lg mt-5"
                 >
                     REGISTER
                 </button>

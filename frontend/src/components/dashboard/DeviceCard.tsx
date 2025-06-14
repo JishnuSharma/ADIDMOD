@@ -36,15 +36,15 @@ const DeviceCard: React.FC<DeviceCardProps> = ({
             <div className="p-4 flex flex-col gap-3 text-gray-800">
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">{name}</h2>
-                    <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-md font-medium">
+                    <span className="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded-md font-medium">
                         {deviceId}
                     </span>
                 </div>
                 <div className="flex justify-between items-center text-sm text-gray-600">
-                    <span className="bg-purple-50 px-2 py-1 rounded-full">
+                    <span className="bg-slate-50 px-2 py-1 rounded-full">
                         {deviceType}
                     </span>
-                    <span className="bg-purple-50 px-2 py-1 rounded-full">
+                    <span className="bg-slate-50 px-2 py-1 rounded-full">
                         {fileType.toUpperCase()}
                     </span>
                 </div>

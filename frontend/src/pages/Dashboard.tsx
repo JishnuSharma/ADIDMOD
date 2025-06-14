@@ -128,7 +128,7 @@ const Dashboard = () => {
                     <div>
                         <SearchBar/>
                     </div>
-                    <div className="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-400 cursor-pointer">
+                    <div className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-400 cursor-pointer">
                         Add New Device
                     </div>
                 </div>

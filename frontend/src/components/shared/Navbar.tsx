@@ -9,7 +9,7 @@ const navLinks = [
 
 const Navbar = () => {
     return (
-        <div className="bg-purple-500 flex justify-around px-2 py-4 items-center">
+        <div className="bg-slate-500 flex justify-around px-2 py-4 items-center">
             <div className="text-4xl text-white font-bold">ADIDMOD</div>
             <div className="w-full md:w-2/5 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
                 {navLinks.map((link) => (
@@ -19,8 +19,8 @@ const Navbar = () => {
                         className={({ isActive }) =>
                             `text-white text-lg px-4 py-1 rounded-lg transition duration-200 ${
                                 isActive
-                                    ? "bg-purple-700"
-                                    : "hover:bg-purple-600"
+                                    ? "bg-slate-700"
+                                    : "hover:bg-slate-600"
                             }`
                         }
                     >
@@ -31,7 +31,7 @@ const Navbar = () => {
 
             <Link
                 to={"/get-started"}
-                className="bg-purple-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-purple-600 hover:scale-104 transition duration-200"
+                className="bg-slate-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-slate-600 hover:scale-104 transition duration-200"
             >
                 Get Started
             </Link>

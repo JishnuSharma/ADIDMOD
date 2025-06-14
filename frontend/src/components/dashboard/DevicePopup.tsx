@@ -67,7 +67,7 @@ const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
             disabled={!isEditing}
             value={formState.name}
             onChange={(e) => handleChange("name", e.target.value)}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:bg-gray-100"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600 disabled:bg-gray-100"
           />
         </label>
         <label className="block mb-4">
@@ -76,7 +76,7 @@ const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
             disabled={!isEditing}
             value={formState.deviceType}
             onChange={(e) => handleChange("deviceType", e.target.value as DeviceCardProps["deviceType"])}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:bg-gray-100"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600 disabled:bg-gray-100"
           >
             {["Temperature", "Humidity", "Smoke", "Motion", "Infrared", "Pressure"].map((type) => (
               <option key={type} value={type}>
@@ -91,7 +91,7 @@ const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
             disabled={!isEditing}
             value={formState.fileType}
             onChange={(e) => handleChange("fileType", e.target.value as DeviceCardProps["fileType"])}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:bg-gray-100"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-600 disabled:bg-gray-100"
           >
             <option value="excel">EXCEL</option>
             <option value="csv">CSV</option>
@@ -109,7 +109,7 @@ const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
               </button>
               <button
                 onClick={handleSave}
-                className="px-4 py-2 rounded bg-purple-700 cursor-pointer text-white hover:bg-purple-800 transition"
+                className="px-4 py-2 rounded bg-slate-700 cursor-pointer text-white hover:bg-slate-800 transition"
               >
                 Save
               </button>
@@ -117,7 +117,7 @@ const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
           ) : (
             <div className="flex justify-between w-full">
               <button
-                className="px-4 py-2 rounded bg-purple-700 cursor-pointer text-white hover:bg-purple-800 transition"
+                className="px-4 py-2 rounded bg-slate-700 cursor-pointer text-white hover:bg-slate-800 transition"
                 onClick={() => console.log("Process Data Clicked")}
               >
                 Process Data

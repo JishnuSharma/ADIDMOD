@@ -28,7 +28,7 @@ const Input:React.FC<InputProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`px-3 py-1 border-2 border-purple-300 rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-purple-600 ${className}`} />
+        className={`px-3 py-1 border-2 border-slate-300 rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-slate-600 ${className}`} />
         {error && <div className="text-red-500">{error}</div>}
     </div>
   )

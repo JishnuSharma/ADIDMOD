@@ -7,7 +7,7 @@ const Hero = () => {
                 className="w-full h-full object-cover filter"
             />
 
-            <div className="absolute inset-0 bg-purple-950/70"></div>
+            <div className="absolute inset-0 bg-slate-950/70"></div>
 
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
                 <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">

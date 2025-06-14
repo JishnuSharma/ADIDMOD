@@ -23,10 +23,10 @@ const WorkingSteps = () => {
       {steps.map((step) => (
         <div
           key={step.id}
-          className="flex items-center shadow-lg bg-purple-700 rounded-tl-[50px] rounded-bl-[50px] rounded-tr-xl rounded-br-xl overflow-hidden min-w-[220px] max-w-[350px] h-25 transition-transform hover:scale-105 duration-300 cursor-pointer"
+          className="flex items-center shadow-lg bg-slate-700 rounded-tl-[50px] rounded-bl-[50px] rounded-tr-xl rounded-br-xl overflow-hidden min-w-[220px] max-w-[350px] h-25 transition-transform hover:scale-105 duration-300 cursor-pointer"
         >
           <div className=" ">
-            <div className="bg-white text-purple-700 border-2 border-purple-700 w-25 h-25 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-md">
+            <div className="bg-white text-slate-700 border-2 border-slate-700 w-25 h-25 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-md">
               {step.id}
             </div>
           </div>

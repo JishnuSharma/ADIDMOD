@@ -18,14 +18,14 @@ const Authentication = () => {
                 {isRegister ? (
                     <>
                         Already have an account?{" "}
-                        <span className="text-purple-700 px-1 cursor-pointer">
+                        <span className="text-slate-700 px-1 cursor-pointer">
                             Login
                         </span>
                     </>
                 ) : (
                     <>
                         Don't have an account?{" "}
-                        <span className="text-purple-700 px-1 cursor-pointer">
+                        <span className="text-slate-700 px-1 cursor-pointer">
                             Sign Up
                         </span>
                     </>

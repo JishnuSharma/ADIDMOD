@@ -66,7 +66,7 @@ const FeatureSwiper = () => {
               className="w-full flex-shrink-0 p-8"
             >
               <div className="text-center">
-                <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-purple-800">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-slate-800">
                   {feature.title}
                 </h2>
                 <ul className="text-left max-w-2xl mx-auto space-y-4 text-gray-700 text-base md:text-lg list-disc list-inside">
@@ -87,7 +87,7 @@ const FeatureSwiper = () => {
             key={i}
             onClick={() => setCurrent(i)}
             className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              i === current ? 'bg-purple-600 scale-110' : 'bg-gray-300'
+              i === current ? 'bg-slate-600 scale-110' : 'bg-gray-300'
             }`}
           />
         ))}

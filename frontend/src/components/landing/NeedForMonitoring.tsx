@@ -40,10 +40,10 @@ const NeedForMonitoring = () => {
         {PointOfNeeds.map((point) => {
             return (
                 <div className="bg-red-400 w-[700px] rounded-2xl cursor-pointer">
-                    <div className="bg-purple-700 rounded-tl-2xl rounded-tr-2xl text-lg font-bold text-white px-4 py-2 border-2 border-purple-500">
+                    <div className="bg-slate-700 rounded-tl-2xl rounded-tr-2xl text-lg font-bold text-white px-4 py-2 border-2 border-slate-500">
                         {point.topic}
                     </div>
-                    <div className="px-4 py-2 text-purple-900 text-lg bg-purple-100">
+                    <div className="px-4 py-2 text-slate-900 text-lg bg-slate-100">
                         {point.description}
                     </div>
                 </div>

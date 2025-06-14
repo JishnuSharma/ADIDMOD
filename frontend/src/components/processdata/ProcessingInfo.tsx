@@ -20,12 +20,12 @@ const ProcessingInfo: React.FC<ProcessingInfoProps> = ({
                 >
                     &times;
                 </button>
-                <h2 className="text-[24px] font-semibold text-purple-800 mb-4">
+                <h2 className="text-[24px] font-semibold text-slate-800 mb-4">
                     Processing Instructions
                 </h2>
                 <div className="max-h-[500px] overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-all-scroll">
                     <div>
-                        <div className="w-full text-center text-[18px] text-purple-900">
+                        <div className="w-full text-center text-[18px] text-slate-900">
                             Specifications to keep in mind
                         </div>
                         <div className="mt-5">

@@ -13,7 +13,7 @@ const ProcessingForm = () => {
             <input
               type="file"
               id="deviceFile"
-              className="block w-full text-sm text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:border-purple-700 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+              className="block w-full text-sm text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:border-slate-700 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100"
             />
           </div>
 
@@ -23,7 +23,7 @@ const ProcessingForm = () => {
             </label>
             <select
               id="dataType"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-purple-700 focus:outline-none"
+              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
             >
               <option value="boolean">Boolean</option>
               <option value="numeric">Numeric</option>
@@ -38,7 +38,7 @@ const ProcessingForm = () => {
               type="number"
               id="maxValue"
               placeholder="Enter Maximum Value"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-purple-700 focus:outline-none"
+              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
             />
           </div>
         </div>
@@ -52,7 +52,7 @@ const ProcessingForm = () => {
               type="number"
               id="minValue"
               placeholder="Enter Minimum Value"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-purple-700 focus:outline-none"
+              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
             />
           </div>
 
@@ -64,7 +64,7 @@ const ProcessingForm = () => {
               type="number"
               id="percentage1"
               placeholder="Enter Acceptable Percentage"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-purple-700 focus:outline-none"
+              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
             />
           </div>
 
@@ -76,7 +76,7 @@ const ProcessingForm = () => {
               type="number"
               id="percentage2"
               placeholder="Enter Acceptable Percentage"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-purple-700 focus:outline-none"
+              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
             />
           </div>
         </div>
@@ -84,7 +84,7 @@ const ProcessingForm = () => {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="cursor-pointer bg-purple-600 text-white px-6 py-2 rounded-md hover:bg-purple-700 transition"
+            className="cursor-pointer bg-slate-600 text-white px-6 py-2 rounded-md hover:bg-slate-700 transition"
           >
             Process
           </button>

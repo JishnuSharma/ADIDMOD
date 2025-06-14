@@ -2,11 +2,11 @@ const SearchBar = () => {
     return (
         <div className="flex items-center">
             <input
-                className="py-2 px-4 border-1 border-purple-300 rounded-tl-4xl rounded-bl-4xl min-w-sm"
+                className="py-2 px-4 border-1 border-slate-300 rounded-tl-4xl rounded-bl-4xl min-w-sm"
                 placeholder="Search Devices"
                 type="text"
             />
-            <div className="bg-purple-400 border-1 cursor-pointer hover:bg-purple-500 transition duration-500 hover:border-purple-500 border-purple-400 py-3 px-5 rounded-tr-4xl rounded-br-4xl min-w-2.5">
+            <div className="bg-slate-400 border-1 cursor-pointer hover:bg-slate-500 transition duration-500 hover:border-slate-500 border-slate-400 py-3 px-5 rounded-tr-4xl rounded-br-4xl min-w-2.5">
                 <svg
                     className="w-4 h-4 text-white"
                     aria-hidden="true"

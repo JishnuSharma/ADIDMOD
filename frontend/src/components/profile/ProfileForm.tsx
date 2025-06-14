@@ -13,7 +13,7 @@ const ProfileForm = () => {
               id="first_name"
               name="first_name"
               type="text"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -25,7 +25,7 @@ const ProfileForm = () => {
               id="last_name"
               name="last_name"
               type="text"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -37,7 +37,7 @@ const ProfileForm = () => {
               id="email"
               name="email"
               type="email"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -49,7 +49,7 @@ const ProfileForm = () => {
               id="profession"
               name="profession"
               type="text"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -61,7 +61,7 @@ const ProfileForm = () => {
               id="phone"
               name="phone"
               type="tel"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -73,7 +73,7 @@ const ProfileForm = () => {
               id="location"
               name="location"
               type="text"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
         </div>
@@ -91,7 +91,7 @@ const ProfileForm = () => {
               id="current_password"
               name="current_password"
               type="password"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -103,7 +103,7 @@ const ProfileForm = () => {
               id="new_password"
               name="new_password"
               type="password"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
 
@@ -115,14 +115,14 @@ const ProfileForm = () => {
               id="confirm_password"
               name="confirm_password"
               type="password"
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500"
             />
           </div>
         </div>
       </section>
 
       <div className="text-right">
-        <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition cursor-pointer">
+        <button className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg transition cursor-pointer">
           Save Changes
         </button>
       </div>
