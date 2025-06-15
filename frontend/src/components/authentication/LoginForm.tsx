@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "../shared/form/Input";
+import { loginUser } from "../../api/user.api";
 
 interface FormData {
     email: string;
@@ -19,9 +20,9 @@ const LoginForm = () => {
 
     const [error, setErrors] = useState<FormErrors>({});
 
-    const validateInputs = (name:string,value:string)=>{
-        switch(name){
-            case "email": 
+    const validateInputs = (name: string, value: string) => {
+        switch (name) {
+            case "email":
                 if (!value.trim()) return "Email is required";
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(value)) return "Invalid email address";
@@ -29,8 +30,7 @@ const LoginForm = () => {
             case "password":
                 if (!value.trim()) return "Password is required";
         }
-        
-    }
+    };
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -42,11 +42,11 @@ const LoginForm = () => {
 
         setErrors((prev) => ({
             ...prev,
-            [name]: undefined
-        }))
+            [name]: undefined,
+        }));
     };
 
-    const submitHandler = ((e:React.FormEvent) => {
+    const submitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const errors: FormErrors = {};
@@ -56,9 +56,24 @@ const LoginForm = () => {
             if (error) errors[key] = error;
         });
 
-        setErrors(errors)
+        setErrors(errors);
 
-    })
+        if (Object.keys(errors).length === 0) {
+            try {
+                const response = await loginUser({
+                    email: formData.email,
+                    password: formData.password,
+                });
+
+                console.log("Login success:", response);
+            } catch (err: any) {
+                console.error(
+                    "Login failed:",
+                    err.response?.data?.message || err.message
+                );
+            }
+        }
+    };
 
     return (
         <div className="mt-20">

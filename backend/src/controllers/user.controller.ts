@@ -15,7 +15,6 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 
     try {
-        // Optional: check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             res.status(409).json({
@@ -25,7 +24,6 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
-        // Hash password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
@@ -65,7 +63,55 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 
-export const getAllUsers = async (_req: Request, res: Response) => {
-    const users = await User.find();
-    res.json(users);
+export const loginUser = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        res.status(400).json({
+            success: false,
+            message: "Email and password are required to login",
+        });
+        return;
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                message: "User not found with the given email",
+            });
+            return;
+        }
+
+        const isCorrect = await bcrypt.compare(password, user.password);
+
+        if (!isCorrect) {
+            res.status(401).json({
+                success: false,
+                message: "Invalid email or password",
+            });
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            user: {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+            },
+        });
+        return;
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong during login",
+        });
+        return;
+    }
 };
