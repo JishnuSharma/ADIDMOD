@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "../shared/form/Input";
+import { registerUser } from "../../api/user.api";
 
 interface FormData {
     firstName: string;
@@ -70,7 +71,7 @@ const RegisterForm = () => {
         }));
     };
 
-    const onSubmitHandler = (e: React.FormEvent) => {
+    const onSubmitHandler = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const errors: FormErrors = {};
@@ -82,7 +83,12 @@ const RegisterForm = () => {
         setFormErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            console.log("Form submitted", formData);
+            try {
+                const response = await registerUser(formData);
+                console.log("Registeration success: ", response);
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
