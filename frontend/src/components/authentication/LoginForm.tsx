@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../shared/form/Input";
 import { loginUser } from "../../api/user.api";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
     email: string;
@@ -19,6 +20,7 @@ const LoginForm = () => {
     });
 
     const [error, setErrors] = useState<FormErrors>({});
+    const navigate = useNavigate();
 
     const validateInputs = (name: string, value: string) => {
         switch (name) {
@@ -64,6 +66,9 @@ const LoginForm = () => {
                     email: formData.email,
                     password: formData.password,
                 });
+
+                localStorage.setItem("token",response.token);
+                navigate("/dashboard");
 
                 console.log("Login success:", response);
             } catch (err: any) {

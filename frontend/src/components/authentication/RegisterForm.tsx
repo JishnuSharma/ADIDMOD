@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../shared/form/Input";
 import { registerUser } from "../../api/user.api";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
     firstName: string;
@@ -26,6 +27,8 @@ const RegisterForm = () => {
         password: "",
         confirmPassword: "",
     });
+
+    const navigate = useNavigate();
 
     const [formErrors, setFormErrors] = useState<FormErrors>({});
 
@@ -85,6 +88,8 @@ const RegisterForm = () => {
         if (Object.keys(errors).length === 0) {
             try {
                 const response = await registerUser(formData);
+                localStorage.setItem("token",response.token);
+                navigate('/dashboard');
                 console.log("Registeration success: ", response);
             } catch (error) {
                 console.log(error);

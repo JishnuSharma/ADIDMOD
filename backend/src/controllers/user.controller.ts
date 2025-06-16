@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
-import bcrypt from "bcryptjs"; // Make sure to install this
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
@@ -41,9 +42,19 @@ export const registerUser = async (req: Request, res: Response) => {
             return;
         }
 
+        const token = jwt.sign(
+            {
+                id: user._id,
+                email: user.email,
+            },
+            process.env.JWT_SECRET as string,
+            { expiresIn: "1d" }
+        );
+
         res.status(201).json({
             success: true,
             message: "User created successfully",
+            token,
             user: {
                 id: user._id,
                 firstName: user.firstName,
@@ -61,7 +72,6 @@ export const registerUser = async (req: Request, res: Response) => {
         return;
     }
 };
-
 
 export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -95,9 +105,19 @@ export const loginUser = async (req: Request, res: Response) => {
             return;
         }
 
+        const token = jwt.sign(
+            {
+                id: user._id,
+                email: user.email,
+            },
+            process.env.JWT_SECRET as string,
+            { expiresIn: "1d" }
+        );
+
         res.status(200).json({
             success: true,
             message: "Login successful",
+            token,
             user: {
                 id: user._id,
                 firstName: user.firstName,

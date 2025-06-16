@@ -1,6 +1,7 @@
 import ProfileForm from "../components/profile/ProfileForm";
 
 const MyProfile = () => {
+
   return (
     <div className="max-w-6xl mx-auto mt-10 p-10 bg-slate-100 border-2 border-slate-500 rounded-3xl shadow-lg flex flex-col lg:flex-row gap-10">
       {/* Left Panel – Profile Summary */}
