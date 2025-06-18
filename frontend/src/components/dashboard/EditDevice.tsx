@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DeviceCardProps } from "./DeviceCard";
-
-interface EditDeviceModalProps {
-  device: DeviceCardProps | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (updatedDevice: DeviceCardProps) => void;
-}
+import { DeviceCardProps, EditDeviceModalProps } from "./types";
 
 const EditDeviceModal: React.FC<EditDeviceModalProps> = ({
   device,

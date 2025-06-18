@@ -1,11 +1,13 @@
-import mongoose,{Document,Schema} from "mongoose";
+import mongoose,{Document,Schema, Types} from "mongoose";
 import { DeviceType, FileType } from "../utils/device.enums";
+import User from "./user.model";
 
 export interface IDevice extends Document {
     name: string;
     deviceType: DeviceType;
     fileType: FileType;
     deviceID: string;
+    userId: Types.ObjectId;
 }
 
 const deviceSchema = new Schema<IDevice>({
@@ -26,6 +28,12 @@ const deviceSchema = new Schema<IDevice>({
     deviceID: {
         type: String,
         required: true,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+
     }
 },{timestamps:true})
 

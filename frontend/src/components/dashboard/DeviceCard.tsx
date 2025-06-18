@@ -1,15 +1,4 @@
-import { DeviceTypes, FileTypes } from "../../types/enums";
-
-export interface DeviceCardProps {
-    name: string;
-    deviceId: string;
-    fileType: FileTypes;
-    deviceType: DeviceTypes;
-    date: Date;
-    time: Date;
-    imageUrl?: string;
-    onClick?: () => void;
-}
+import { DeviceCardProps } from "./types";
 
 const DeviceCard: React.FC<DeviceCardProps> = ({
     name,
@@ -19,7 +8,7 @@ const DeviceCard: React.FC<DeviceCardProps> = ({
     date,
     time,
     imageUrl,
-    onClick, // ✅ destructured here
+    onClick,
 }) => {
     return (
         <div
