@@ -67,7 +67,6 @@ const LoginForm = () => {
                     password: formData.password,
                 });
 
-                localStorage.setItem("token",response.token);
                 navigate("/dashboard");
 
                 console.log("Login success:", response);

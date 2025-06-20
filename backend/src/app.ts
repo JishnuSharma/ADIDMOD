@@ -3,10 +3,13 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from './routes/user.routes';
 import deviceRoutes from './routes/device.routes';
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use(cors({
     origin: process.env.CLIENT_URI,

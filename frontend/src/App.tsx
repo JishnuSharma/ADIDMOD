@@ -9,42 +9,45 @@ import Dashboard from "./pages/Dashboard";
 import MyProfile from "./pages/MyProfile";
 import ProcessData from "./pages/ProcessData";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
     return (
-        <Router>
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/get-started" element={<Authentication />} />
-                <Route
-                    path="/dashboard"
-                    element={
-                        <PrivateRoute>
-                            <Dashboard />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/profile"
-                    element={
-                        <PrivateRoute>
-                            <MyProfile />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/process-data"
-                    element={
-                        <PrivateRoute>
-                            <ProcessData />
-                        </PrivateRoute>
-                    }
-                />
-            </Routes>
-            <Footer />
-        </Router>
+        <UserProvider>
+            <Router>
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/get-started" element={<Authentication />} />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <PrivateRoute>
+                                <Dashboard />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <PrivateRoute>
+                                <MyProfile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/process-data"
+                        element={
+                            <PrivateRoute>
+                                <ProcessData />
+                            </PrivateRoute>
+                        }
+                    />
+                </Routes>
+                <Footer />
+            </Router>
+        </UserProvider>
     );
 }
 

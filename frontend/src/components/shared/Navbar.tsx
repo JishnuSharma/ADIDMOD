@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { isLoggedIn, logout } from "../../utils/auth";
+import { logoutUser } from "../../api/user.api";
+import { useUser } from "../../context/UserContext";
 
 const navLinks = [
     { name: "Home", path: "/", protected: false },
@@ -9,13 +10,18 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-
     const navigate = useNavigate();
+    const { user, setUser, loading } = useUser();
 
-    const handleLogout = () => {
-        logout();
-        navigate("/");
-    }
+    const handleLogout = async () => {
+        try {
+            await logoutUser(); 
+            setUser(null); 
+            navigate("/");
+        } catch (err) {
+            console.error("Logout failed", err);
+        }
+    };
 
     return (
         <div className="bg-slate-500 flex items-center justify-between px-6 py-4">
@@ -23,26 +29,27 @@ const Navbar = () => {
 
             <div className="ml-auto flex items-center gap-4">
                 <nav className="flex gap-4">
-                    {navLinks
-                        .filter((link) => isLoggedIn() || !link.protected)
-                        .map((link) => (
-                            <NavLink
-                                key={link.name}
-                                to={link.path}
-                                className={({ isActive }) =>
-                                    `text-white text-lg px-4 py-1 rounded-lg transition duration-200 ${
-                                        isActive
-                                            ? "bg-slate-700"
-                                            : "hover:bg-slate-600"
-                                    }`
-                                }
-                            >
-                                {link.name}
-                            </NavLink>
-                        ))}
+                    {!loading &&
+                        navLinks
+                            .filter((link) => !link.protected || user)
+                            .map((link) => (
+                                <NavLink
+                                    key={link.name}
+                                    to={link.path}
+                                    className={({ isActive }) =>
+                                        `text-white text-lg px-4 py-1 rounded-lg transition duration-200 ${
+                                            isActive
+                                                ? "bg-slate-700"
+                                                : "hover:bg-slate-600"
+                                        }`
+                                    }
+                                >
+                                    {link.name}
+                                </NavLink>
+                            ))}
                 </nav>
 
-                {!isLoggedIn() ? (
+                {!loading && !user ? (
                     <Link
                         to="/get-started"
                         className="bg-slate-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-slate-600 transition duration-200"

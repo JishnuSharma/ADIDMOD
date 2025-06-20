@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+interface AuthenticatedRequest extends Request {
+    user?: string | JwtPayload;
+}
 
 export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
@@ -114,10 +118,16 @@ export const loginUser = async (req: Request, res: Response) => {
             { expiresIn: "1d" }
         );
 
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+
         res.status(200).json({
             success: true,
             message: "Login successful",
-            token,
             user: {
                 id: user._id,
                 firstName: user.firstName,
@@ -133,5 +143,35 @@ export const loginUser = async (req: Request, res: Response) => {
             message: "Something went wrong during login",
         });
         return;
+    }
+};
+
+export const logoutUser = (req: Request, res: Response) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully",
+    });
+    return;
+};
+
+export const userMe = (req: AuthenticatedRequest, res: Response): void => {
+    const user = req.user;
+
+    if (user) {
+        res.status(200).json({
+            success: true,
+            user,
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: "Not authenticated",
+        });
     }
 };

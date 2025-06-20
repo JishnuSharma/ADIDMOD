@@ -19,3 +19,13 @@ export const loginUser = async (formData: {
     const response = await axiosInstance.post(`${base_url}/login`,formData);
     return response.data; 
 }
+
+export const userMe = async () => {
+    const response = await axiosInstance.get(`${base_url}/me`);
+    return response.data; 
+}
+
+export const logoutUser = async () => {
+    const response = await axiosInstance.post(`${base_url}/logout`);
+    return response.data;
+};
