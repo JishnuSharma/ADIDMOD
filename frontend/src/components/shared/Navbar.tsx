@@ -15,8 +15,8 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await logoutUser(); 
-            setUser(null); 
+            await logoutUser();
+            setUser(null);
             navigate("/");
         } catch (err) {
             console.error("Logout failed", err);
@@ -29,9 +29,28 @@ const Navbar = () => {
 
             <div className="ml-auto flex items-center gap-4">
                 <nav className="flex gap-4">
+                    {navLinks
+                        .filter((link) => !link.protected)
+                        .map((link) => (
+                            <NavLink
+                                key={link.name}
+                                to={link.path}
+                                className={({ isActive }) =>
+                                    `text-white text-lg px-4 py-1 rounded-lg transition duration-200 ${
+                                        isActive
+                                            ? "bg-slate-700"
+                                            : "hover:bg-slate-600"
+                                    }`
+                                }
+                            >
+                                {link.name}
+                            </NavLink>
+                        ))}
+
                     {!loading &&
+                        user &&
                         navLinks
-                            .filter((link) => !link.protected || user)
+                            .filter((link) => link.protected)
                             .map((link) => (
                                 <NavLink
                                     key={link.name}
@@ -49,20 +68,20 @@ const Navbar = () => {
                             ))}
                 </nav>
 
-                {!loading && !user ? (
+                {!loading && user ? (
+                    <button
+                        onClick={handleLogout}
+                        className="bg-slate-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-slate-600 transition duration-200 cursor-pointer"
+                    >
+                        Logout
+                    </button>
+                ) : (
                     <Link
                         to="/get-started"
                         className="bg-slate-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-slate-600 transition duration-200"
                     >
                         Get Started
                     </Link>
-                ) : (
-                    <button
-                        className="bg-slate-700 text-white font-bold px-4 py-2 rounded-lg hover:bg-slate-600 transition duration-200 cursor-pointer"
-                        onClick={handleLogout}
-                    >
-                        Logout
-                    </button>
                 )}
             </div>
         </div>

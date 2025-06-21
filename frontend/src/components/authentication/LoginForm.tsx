@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../shared/form/Input";
 import { loginUser } from "../../api/user.api";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 interface FormData {
     email: string;
@@ -18,7 +19,7 @@ const LoginForm = () => {
         email: "",
         password: "",
     });
-
+    const {setUser} = useUser();
     const [error, setErrors] = useState<FormErrors>({});
     const navigate = useNavigate();
 
@@ -66,6 +67,8 @@ const LoginForm = () => {
                     email: formData.email,
                     password: formData.password,
                 });
+
+                setUser(response.user);
 
                 navigate("/dashboard");
 
