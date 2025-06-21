@@ -4,9 +4,9 @@ import Device from "../models/device.model";
 
 export const addDevice = async (req: Request, res: Response) => {
     try {
-        const { name, deviceType, fileType } = req.body;
+        const { name, deviceType, fileType, userId } = req.body;
 
-        if (!name || !deviceType || !fileType) {
+        if (!name || !deviceType || !fileType || !userId) {
             res.status(400).json({
                 success: false,
                 message: "All fields are required to add a new device",
@@ -30,6 +30,7 @@ export const addDevice = async (req: Request, res: Response) => {
         console.log("Reaching here");
         const device = await Device.create({
             name,
+            userId,
             deviceType,
             fileType,
             deviceID

@@ -1,4 +1,5 @@
-import { DeviceCardProps } from "../components/dashboard/types";
+import { Device } from "../types/device";
+
 
 export const deviceData = [
     {
@@ -8,7 +9,6 @@ export const deviceData = [
         fileType: "csv",
         date: new Date("2025-05-20"),
         time: new Date("2025-05-20T10:15:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Humidity Sensor X2",
@@ -17,7 +17,6 @@ export const deviceData = [
         fileType: "excel",
         date: new Date("2025-05-21"),
         time: new Date("2025-05-21T14:30:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Smoke Detector Z9",
@@ -26,7 +25,6 @@ export const deviceData = [
         fileType: "csv",
         date: new Date("2025-05-18"),
         time: new Date("2025-05-18T08:00:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Motion Tracker M5",
@@ -35,7 +33,6 @@ export const deviceData = [
         fileType: "excel",
         date: new Date("2025-05-19"),
         time: new Date("2025-05-19T09:45:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Infrared Sensor T7",
@@ -44,7 +41,6 @@ export const deviceData = [
         fileType: "csv",
         date: new Date("2025-05-17"),
         time: new Date("2025-05-17T11:20:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Pressure Monitor B2",
@@ -53,7 +49,6 @@ export const deviceData = [
         fileType: "excel",
         date: new Date("2025-05-15"),
         time: new Date("2025-05-15T12:30:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Temp Sensor C3",
@@ -62,7 +57,6 @@ export const deviceData = [
         fileType: "csv",
         date: new Date("2025-05-14"),
         time: new Date("2025-05-14T13:00:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Humidity Sensor D4",
@@ -71,7 +65,6 @@ export const deviceData = [
         fileType: "excel",
         date: new Date("2025-05-13"),
         time: new Date("2025-05-13T15:45:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Smoke Detector E5",
@@ -80,7 +73,6 @@ export const deviceData = [
         fileType: "csv",
         date: new Date("2025-05-12"),
         time: new Date("2025-05-12T16:10:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
     {
         name: "Motion Tracker F6",
@@ -89,6 +81,5 @@ export const deviceData = [
         fileType: "excel",
         date: new Date("2025-05-11"),
         time: new Date("2025-05-11T18:25:00"),
-        imageUrl: "/images/device/humidity.jpg",
     },
-] as const satisfies DeviceCardProps[];
+] as const satisfies Device[];

@@ -1,71 +1,81 @@
 import { useState } from "react";
 import DeviceCard from "../components/dashboard/DeviceCard";
-import EditDeviceModal from "../components/dashboard/EditDevice";
+import DeviceModal from "../components/dashboard/DeviceModal";
 import Headings from "../components/shared/Headings";
 import SearchBar from "../components/dashboard/SearchBar";
-import AddDeviceModal from "../components/dashboard/AddDevice";
-import { DeviceCardProps } from "../components/dashboard/types";
 import { deviceData } from "../data/devices";
+import { Device } from "../types/device";
 
 const Dashboard = () => {
-    const [devices, setDevices] = useState<DeviceCardProps[]>(deviceData);
-    const [selectedDevice, setSelectedDevice] =
-        useState<DeviceCardProps | null>(null);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [devices, setDevices] = useState<Device[]>(deviceData);
+    const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCardClick = (device: DeviceCardProps) => {
+    const handleCardClick = (device: Device) => {
         setSelectedDevice(device);
-        setIsEditModalOpen(true);
+        setIsModalOpen(true);
     };
 
-    const handleDeviceUpdate = (updated: DeviceCardProps) => {
-        setDevices((prev) =>
-            prev.map((d) => (d.deviceId === updated.deviceId ? updated : d))
-        );
+    const handleAddClick = () => {
+        setSelectedDevice(null); 
+        setIsModalOpen(true);
     };
 
-    const handleAddDevice = (data:any) => {
-        console.log(data);
-    }
+    const handleSave = (device: Device) => {
+        setDevices((prevDevices) => {
+            const exists = prevDevices.some(
+                (d) => d.deviceId === device.deviceId
+            );
+            if (exists) {
+                return prevDevices.map((d) =>
+                    d.deviceId === device.deviceId ? device : d
+                );
+            } else {
+                return [...prevDevices, device];
+            }
+        });
+        setIsModalOpen(false);
+    };
 
     return (
         <div>
             <div className="flex justify-start items-center mt-6 px-10">
                 <Headings title="DEVICE DASHBOARD" />
             </div>
+
             <div className="flex justify-between items-center w-[95%] mx-auto mt-6">
                 <div className="text-2xl">
-                    <b>Total Devices:</b> 29
+                    <b>Total Devices:</b> {devices.length}
                 </div>
                 <div className="flex gap-10 items-center">
-                    <div>
-                        <SearchBar/>
-                    </div>
-                    <div onClick={() => setIsAddModalOpen(true)} className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-400 cursor-pointer">
+                    <SearchBar />
+                    <button
+                        onClick={handleAddClick}
+                        className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300 cursor-pointer"
+                    >
                         Add New Device
-                    </div>
+                    </button>
                 </div>
             </div>
+
             <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
                 {devices.map((device) => (
                     <DeviceCard
                         key={device.deviceId}
-                        {...device}
+                        device={device}
                         onClick={() => handleCardClick(device)}
                     />
                 ))}
             </div>
-            <EditDeviceModal
-                device={selectedDevice}
-                isOpen={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
-                onSave={handleDeviceUpdate}
-            />
-            <AddDeviceModal
-                isOpen={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                onSave={handleAddDevice}
+
+            <DeviceModal
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setSelectedDevice(null);
+                    setIsModalOpen(false);
+                }}
+                onSave={handleSave}
+                device={selectedDevice ?? undefined}
             />
         </div>
     );

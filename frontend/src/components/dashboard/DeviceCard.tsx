@@ -1,15 +1,11 @@
-import { DeviceCardProps } from "./types";
+import { Device } from "../../types/device";
 
-const DeviceCard: React.FC<DeviceCardProps> = ({
-    name,
-    deviceId,
-    deviceType,
-    fileType,
-    date,
-    time,
-    imageUrl,
-    onClick,
-}) => {
+export type DeviceCardProps = {
+    device: Device;
+    onClick: () => void;
+};
+
+const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
     return (
         <div
             onClick={onClick}
@@ -18,29 +14,29 @@ const DeviceCard: React.FC<DeviceCardProps> = ({
             <div>
                 <img
                     className="w-full h-44 object-cover"
-                    src={imageUrl}
-                    alt={deviceId}
+                    src={'/images/device/humidity.jpg'}
+                    alt={device.deviceId}
                 />
             </div>
             <div className="p-4 flex flex-col gap-3 text-gray-800">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">{name}</h2>
+                    <h2 className="text-lg font-semibold">{device.name}</h2>
                     <span className="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded-md font-medium">
-                        {deviceId}
+                        {device.deviceId}
                     </span>
                 </div>
                 <div className="flex justify-between items-center text-sm text-gray-600">
                     <span className="bg-slate-50 px-2 py-1 rounded-full">
-                        {deviceType}
+                        {device.deviceType}
                     </span>
                     <span className="bg-slate-50 px-2 py-1 rounded-full">
-                        {fileType.toUpperCase()}
+                        {device.fileType.toUpperCase()}
                     </span>
                 </div>
                 <div className="flex justify-between text-sm text-gray-500">
-                    <span>{date.toLocaleDateString()}</span>
+                    <span>{device.date.toLocaleDateString()}</span>
                     <span>
-                        {time.toLocaleTimeString([], {
+                        {device.time.toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
                         })}
