@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-import { Device, DeviceType, FileType } from "../../types/device";
+import { Device } from "../../types/device";
 import { DeviceTypes, FileTypes } from "../../types/device";
+import { useUser } from "../../context/UserContext";
+import { addDevice } from "../../api/device.api";
 
 type DeviceModalProps = {
     device?: Device;
     onClose: () => void;
     isOpen: boolean;
-    onSave: (device: Device) => void;
 };
 
-const DeviceModal = ({ device, onClose, isOpen, onSave }: DeviceModalProps) => {
-    const [formData, setFormData] = useState<Device>({
-        deviceId: "",
+const DeviceModal = ({ device, onClose, isOpen }: DeviceModalProps) => {
+    const { user } = useUser();
+
+    const [formData, setFormData] = useState<Partial<Device>>({
         name: "",
-        deviceType: "TEMPERATURE" as DeviceType,
-        fileType: "excel" as FileType,
-        date: new Date(),
-        time: new Date(),
+        deviceType: DeviceTypes.TEMPERATURE,
+        fileType: "excel",
     });
 
     useEffect(() => {
@@ -24,12 +24,9 @@ const DeviceModal = ({ device, onClose, isOpen, onSave }: DeviceModalProps) => {
             setFormData(device);
         } else {
             setFormData({
-                deviceId: "",
                 name: "",
-                deviceType: "TEMPERATURE" as DeviceType,
-                fileType: "excel" as FileType,
-                date: new Date(),
-                time: new Date(),
+                deviceType: DeviceTypes.TEMPERATURE,
+                fileType: FileTypes.EXCEL,
             });
         }
     }, [device]);
@@ -45,16 +42,33 @@ const DeviceModal = ({ device, onClose, isOpen, onSave }: DeviceModalProps) => {
     };
 
     const handleSubmit = () => {
-        if (!formData.name || !formData.deviceType || !formData.fileType) return;
+        if (
+            !formData.name ||
+            !formData.deviceType ||
+            !formData.fileType ||
+            !user
+        ) {
+            return;
+        }
 
-        const finalDevice: Device = {
-            ...formData,
-            deviceId: formData.deviceId || crypto.randomUUID(),
-            date: device?.date || new Date(),
-            time: device?.time || new Date(),
+        console.log(formData, user.id);
+        const payload = {
+            name: formData.name,
+            deviceType: formData.deviceType,
+            fileType: formData.fileType,
+            userId: user.id,
         };
 
-        onSave(finalDevice);
+        addDevice(payload);
+
+        setFormData({
+            name: "",
+            deviceType: DeviceTypes.TEMPERATURE,
+            fileType: FileTypes.EXCEL,
+        });
+
+        onClose();
+        onClose();
     };
 
     if (!isOpen) return null;
