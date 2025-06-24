@@ -3,6 +3,7 @@ import { Device } from "../../types/device";
 import { DeviceTypes, FileTypes } from "../../types/device";
 import { useUser } from "../../context/UserContext";
 import { addDevice } from "../../api/device.api";
+import { toast } from "react-toastify";
 
 type DeviceModalProps = {
     device?: Device;
@@ -62,6 +63,8 @@ const DeviceModal = ({ device, onClose, isOpen, onDeviceAdded }: DeviceModalProp
         };
 
         await addDevice(payload);
+
+        toast.success("Device added successfully!");
 
         setFormData({
             name: "",

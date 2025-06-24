@@ -10,6 +10,7 @@ import MyProfile from "./pages/MyProfile";
 import ProcessData from "./pages/ProcessData";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import { UserProvider } from "./context/UserContext";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     return (
@@ -47,6 +48,14 @@ function App() {
                 </Routes>
                 <Footer />
             </Router>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                closeOnClick
+                pauseOnHover
+                draggable
+                theme="light"
+            />
         </UserProvider>
     );
 }
