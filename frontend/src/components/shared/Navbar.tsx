@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../api/user.api";
 import { useUser } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
 const navLinks = [
     { name: "Home", path: "/", protected: false },
@@ -17,6 +18,7 @@ const Navbar = () => {
         try {
             await logoutUser();
             setUser(null);
+            toast.success("Successfully logged out!");
             navigate("/");
         } catch (err) {
             console.error("Logout failed", err);

@@ -2,6 +2,8 @@ import { useState } from "react";
 import Input from "../shared/form/Input";
 import { registerUser } from "../../api/user.api";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
 interface FormData {
     firstName: string;
@@ -27,6 +29,8 @@ const RegisterForm = () => {
         password: "",
         confirmPassword: "",
     });
+
+    const { setUser } = useUser();
 
     const navigate = useNavigate();
 
@@ -88,9 +92,9 @@ const RegisterForm = () => {
         if (Object.keys(errors).length === 0) {
             try {
                 const response = await registerUser(formData);
-                localStorage.setItem("token",response.token);
-                navigate('/dashboard');
-                console.log("Registeration success: ", response);
+                setUser(response.user);
+                toast.success("Account created successfully!");
+                navigate("/dashboard");
             } catch (error) {
                 console.log(error);
             }

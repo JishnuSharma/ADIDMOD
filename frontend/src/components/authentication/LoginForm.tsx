@@ -3,6 +3,7 @@ import Input from "../shared/form/Input";
 import { loginUser } from "../../api/user.api";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
 interface FormData {
     email: string;
@@ -69,6 +70,8 @@ const LoginForm = () => {
                 });
 
                 setUser(response.user);
+
+                toast.success("Successfully logged in!");
 
                 navigate("/dashboard");
 

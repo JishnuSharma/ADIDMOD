@@ -25,6 +25,11 @@ export const userMe = async () => {
     return response.data; 
 }
 
+export const getUserDetails = async() => {
+    const response = await axiosInstance.get(`${base_url}/details`);
+    return response.data;
+}
+
 export const logoutUser = async () => {
     const response = await axiosInstance.post(`${base_url}/logout`);
     return response.data;
