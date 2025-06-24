@@ -11,3 +11,8 @@ export const addDevice = async (formData:{
     const response = await axiosInstance.post(`${base_url}/add`,formData);
     return response.data; 
 }
+
+export const getDevices = async () => {
+    const response = await axiosInstance.get(`${base_url}/`);
+    return response.data;
+}

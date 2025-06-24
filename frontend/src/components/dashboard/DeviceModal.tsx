@@ -8,9 +8,11 @@ type DeviceModalProps = {
     device?: Device;
     onClose: () => void;
     isOpen: boolean;
+    onDeviceAdded: () => void;
 };
 
-const DeviceModal = ({ device, onClose, isOpen }: DeviceModalProps) => {
+
+const DeviceModal = ({ device, onClose, isOpen, onDeviceAdded }: DeviceModalProps) => {
     const { user } = useUser();
 
     const [formData, setFormData] = useState<Partial<Device>>({
@@ -41,7 +43,7 @@ const DeviceModal = ({ device, onClose, isOpen }: DeviceModalProps) => {
         }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (
             !formData.name ||
             !formData.deviceType ||
@@ -59,7 +61,7 @@ const DeviceModal = ({ device, onClose, isOpen }: DeviceModalProps) => {
             userId: user.id,
         };
 
-        addDevice(payload);
+        await addDevice(payload);
 
         setFormData({
             name: "",
@@ -67,7 +69,7 @@ const DeviceModal = ({ device, onClose, isOpen }: DeviceModalProps) => {
             fileType: FileTypes.EXCEL,
         });
 
-        onClose();
+        onDeviceAdded();
         onClose();
     };
 

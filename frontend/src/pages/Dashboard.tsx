@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getDevices } from "../api/device.api";
+import { Device } from "../types/device";
+
 import DeviceCard from "../components/dashboard/DeviceCard";
 import DeviceModal from "../components/dashboard/DeviceModal";
 import Headings from "../components/shared/Headings";
 import SearchBar from "../components/dashboard/SearchBar";
-import { deviceData } from "../data/devices";
-import { Device } from "../types/device";
 
 const Dashboard = () => {
-    const [devices] = useState<Device[]>(deviceData);
+    const [devices, setDevices] = useState<Device[]>([]);
     const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCardClick = (device: Device) => {
-        setSelectedDevice(device);
+    const loadDevices = async () => {
+        const data = await getDevices();
+        setDevices(data);
+    };
+
+    useEffect(() => {
+        loadDevices();
+    }, []);
+
+    const openModal = (device?: Device) => {
+        setSelectedDevice(device ?? null);
         setIsModalOpen(true);
     };
 
-    const handleAddClick = () => {
-        setSelectedDevice(null); 
-        setIsModalOpen(true);
+    const closeModal = () => {
+        setSelectedDevice(null);
+        setIsModalOpen(false);
+    };
+
+    const handleDeviceAdded = async () => {
+        await loadDevices();
+        closeModal();
     };
 
     return (
@@ -28,14 +43,14 @@ const Dashboard = () => {
             </div>
 
             <div className="flex justify-between items-center w-[95%] mx-auto mt-6">
-                <div className="text-2xl">
-                    <b>Total Devices:</b> {devices.length}
+                <div className="text-2xl font-semibold">
+                    Total Devices: {devices.length}
                 </div>
                 <div className="flex gap-10 items-center">
                     <SearchBar />
                     <button
-                        onClick={handleAddClick}
-                        className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300 cursor-pointer"
+                        onClick={() => openModal()}
+                        className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300"
                     >
                         Add New Device
                     </button>
@@ -45,19 +60,17 @@ const Dashboard = () => {
             <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
                 {devices.map((device) => (
                     <DeviceCard
-                        key={device.deviceId}
+                        key={device.deviceID}
                         device={device}
-                        onClick={() => handleCardClick(device)}
+                        onClick={() => openModal(device)}
                     />
                 ))}
             </div>
 
             <DeviceModal
                 isOpen={isModalOpen}
-                onClose={() => {
-                    setSelectedDevice(null);
-                    setIsModalOpen(false);
-                }}
+                onClose={closeModal}
+                onDeviceAdded={handleDeviceAdded}
                 device={selectedDevice ?? undefined}
             />
         </div>

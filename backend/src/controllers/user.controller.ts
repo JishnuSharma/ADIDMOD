@@ -1,11 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
-import jwt, { JwtPayload } from "jsonwebtoken";
-
-interface AuthenticatedRequest extends Request {
-    user?: string | JwtPayload;
-}
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
@@ -160,7 +156,7 @@ export const logoutUser = (req: Request, res: Response) => {
     return;
 };
 
-export const userMe = (req: AuthenticatedRequest, res: Response): void => {
+export const userMe = (req: Request, res: Response): void => {
     const user = req.user;
 
     if (user) {

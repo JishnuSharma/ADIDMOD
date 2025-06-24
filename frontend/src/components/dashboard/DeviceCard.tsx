@@ -6,6 +6,8 @@ export type DeviceCardProps = {
 };
 
 const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
+    const createdAt = new Date(device.createdAt);
+
     return (
         <div
             onClick={onClick}
@@ -14,15 +16,15 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
             <div>
                 <img
                     className="w-full h-44 object-cover"
-                    src={'/images/device/humidity.jpg'}
-                    alt={device.deviceId}
+                    src={"/images/device/humidity.jpg"}
+                    alt={device.deviceID}
                 />
             </div>
             <div className="p-4 flex flex-col gap-3 text-gray-800">
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">{device.name}</h2>
                     <span className="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded-md font-medium">
-                        {device.deviceId}
+                        {device.deviceID}
                     </span>
                 </div>
                 <div className="flex justify-between items-center text-sm text-gray-600">
@@ -34,9 +36,9 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
                     </span>
                 </div>
                 <div className="flex justify-between text-sm text-gray-500">
-                    <span>{device.date.toLocaleDateString()}</span>
+                    <span>{createdAt.toLocaleDateString()}</span>
                     <span>
-                        {device.time.toLocaleTimeString([], {
+                        {createdAt.toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
                         })}

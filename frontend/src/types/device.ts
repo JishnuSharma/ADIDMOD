@@ -18,9 +18,8 @@ export type DeviceType = (typeof DeviceTypes)[keyof typeof DeviceTypes];
 
 export type Device = {
     name: string;
-    deviceId: string;
+    deviceID: string;
     deviceType: DeviceType; 
     fileType: FileType;
-    date: Date;
-    time: Date;
+    createdAt: Date;
 };
