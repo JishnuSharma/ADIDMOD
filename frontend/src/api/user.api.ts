@@ -1,3 +1,4 @@
+import { IUserUpdateForm } from "../types/user";
 import axiosInstance from "../utils/axiosInstance";
 
 const base_url = import.meta.env.VITE_BACKEND_URI + '/api/users';
@@ -29,6 +30,11 @@ export const getUserDetails = async() => {
     const response = await axiosInstance.get(`${base_url}/details`);
     return response.data;
 }
+
+export const updateProfile = async(formData: IUserUpdateForm) => {
+    const response = await axiosInstance.post(`${base_url}/update`,formData)
+    return response.data;
+} 
 
 export const logoutUser = async () => {
     const response = await axiosInstance.post(`${base_url}/logout`);

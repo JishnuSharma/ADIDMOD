@@ -177,3 +177,108 @@ export const userMe = (req: Request, res: Response): void => {
         });
     }
 };
+
+export const userDetails = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user?.id;
+
+        if (!userId) {
+            res.status(401).json({ success: false, message: "Unauthorized" });
+            return;
+        }
+
+        const user = await User.findById(userId).select("-password -__v");
+
+        if (!user) {
+            res.status(404).json({ success: false, message: "User not found" });
+            return;
+        }
+
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+    if (!req.user || !req.user.id) {
+        res.status(401).json({ success: false, message: "Unauthorized" });
+        return;
+    }
+
+    const userId = req.user.id;
+
+    const {
+        firstName,
+        lastName,
+        email,
+        profession,
+        phone,
+        location,
+        currentPassword,
+        newPassword,
+    } = req.body;
+
+    if (!firstName || !lastName || !email) {
+        res.status(400).json({
+            success: false,
+            message: "Please update the profile with the required fields",
+        });
+        return;
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+            return;
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+
+        if (profession) user.profession = profession;
+        if (phone) user.phone = phone;
+        if (location) user.location = location;
+
+        if (currentPassword && newPassword) {
+            const isMatch = await bcrypt.compare(
+                currentPassword,
+                user.password
+            );
+            if (!isMatch) {
+                res.status(401).json({
+                    success: false,
+                    message: "Current password is incorrect",
+                });
+                return;
+            }
+
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(newPassword, salt);
+        }
+
+        await user.save();
+
+        const { password, ...userWithoutPassword } = user.toObject();
+
+        res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            user: userWithoutPassword,
+        });
+        return;
+    } catch (error) {
+        console.error("Update profile error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while updating profile",
+        });
+        return;
+    }
+};
