@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Device } from "../../types/device";
 import { DeviceTypes, FileTypes } from "../../types/device";
 import { useUser } from "../../context/UserContext";
-import { addDevice } from "../../api/device.api";
+import { addDevice, updateDevice } from "../../api/device.api";
 import { toast } from "react-toastify";
 
 type DeviceModalProps = {
@@ -12,8 +12,12 @@ type DeviceModalProps = {
     onDeviceAdded: () => void;
 };
 
-
-const DeviceModal = ({ device, onClose, isOpen, onDeviceAdded }: DeviceModalProps) => {
+const DeviceModal = ({
+    device,
+    onClose,
+    isOpen,
+    onDeviceAdded,
+}: DeviceModalProps) => {
     const { user } = useUser();
 
     const [formData, setFormData] = useState<Partial<Device>>({
@@ -55,16 +59,27 @@ const DeviceModal = ({ device, onClose, isOpen, onDeviceAdded }: DeviceModalProp
         }
 
         console.log(formData, user.id);
-        const payload = {
-            name: formData.name,
-            deviceType: formData.deviceType,
-            fileType: formData.fileType,
-            userId: user.id,
-        };
 
-        await addDevice(payload);
-
-        toast.success("Device added successfully!");
+        if (!isEdit) {
+            const payload = {
+                name: formData.name,
+                deviceType: formData.deviceType,
+                fileType: formData.fileType,
+            };
+            await addDevice(payload);
+            toast.success("Device added successfully!");
+        } else if (device?.deviceID) {
+            const payload = {
+                name: formData.name,
+                deviceType: formData.deviceType,
+                fileType: formData.fileType,
+                deviceId: device._id,
+            };
+            await updateDevice(payload);
+            toast.success("Device updated successfully");
+        } else {
+            toast.error("Error updating device! Try again later");
+        }
 
         setFormData({
             name: "",

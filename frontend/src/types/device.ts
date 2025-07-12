@@ -17,6 +17,7 @@ export const DeviceTypes = {
 export type DeviceType = (typeof DeviceTypes)[keyof typeof DeviceTypes];
 
 export type Device = {
+    _id: string;
     name: string;
     deviceID: string;
     deviceType: DeviceType; 

@@ -4,7 +4,8 @@ import Device from "../models/device.model";
 
 export const addDevice = async (req: Request, res: Response) => {
     try {
-        const { name, deviceType, fileType, userId } = req.body;
+        const { name, deviceType, fileType } = req.body;
+        const userId = req.user?.id;
 
         if (!name || !deviceType || !fileType || !userId) {
             res.status(400).json({
@@ -53,13 +54,54 @@ export const devices = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id;
 
-        const userDevices = await Device.find({ userId }).select("_id name deviceType fileType deviceID createdAt");
+        const userDevices = await Device.find({ userId }).select(
+            "_id name deviceType fileType deviceID createdAt"
+        );
 
         res.status(200).json(userDevices);
         return;
     } catch (error) {
         console.error("Error fetching devices:", error);
         res.status(500).json({ message: "Internal Server Error" });
+        return;
+    }
+};
+
+export const editDevice = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.id;
+        const { deviceId, name, deviceType, fileType } = req.body;
+
+        if (!deviceId || !userId) {
+            res.status(400).json({
+                success: false,
+                message: "Missing parameters to update the device",
+            });
+            return;
+        }
+
+        const updatedDevice = await Device.findOneAndUpdate(
+            { _id: deviceId, userId: userId },
+            { $set: { name, deviceType, fileType } },
+            { new: true }
+        );
+
+        if (!updatedDevice) {
+            res.status(404).json({
+                success: false,
+                message: "Device not found",
+            });
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Device updated",
+            device: updatedDevice,
+        });
+        return;
+    } catch (err) {
+        res.status(500).json({ message: "Server error", error: err });
         return;
     }
 };
