@@ -5,6 +5,7 @@ export interface IUser {
     profession?: string;
     location?: string;
     phone?: string;
+    deviceCount?:number
 }
 
 export interface IUserUpdateForm extends IUser {

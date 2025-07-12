@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { getUserDetails } from "../api/user.api";
 import ProfileForm from "../components/profile/ProfileForm";
+import { IUser } from "../types/user";
 
 const MyProfile = () => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<IUser>();
 
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
                 const data = await getUserDetails();
-                setUser(data.user);
-                console.log("User details:", data.user);
+                setUser(data.userObj);
+                console.log("User details:", data.userObj);
             } catch (error) {
                 console.error("Failed to fetch user details:", error);
             }
@@ -38,7 +39,7 @@ const MyProfile = () => {
                             Devices Added
                         </div>
                         <div className="text-xl font-semibold text-slate-700">
-                            29
+                            {user.deviceCount}
                         </div>
                     </div>
                     <div className="text-center">

@@ -5,5 +5,6 @@ export interface IUser {
     email: string,
     profession?: string,
     phone?: number,
+    deviceCount?:number,
     location?: string,
 }

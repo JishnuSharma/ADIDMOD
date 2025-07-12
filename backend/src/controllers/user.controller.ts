@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Device from "../models/device.model";
 
 export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
@@ -194,7 +195,14 @@ export const userDetails = async (req: Request, res: Response) => {
             return;
         }
 
-        res.status(200).json({ success: true, user });
+        const deviceCount = await Device.countDocuments({ userId });
+
+        const userObj = {
+            ...user.toObject(),
+            deviceCount,
+        };
+
+        res.status(200).json({ success: true, userObj });
     } catch (error) {
         console.error("Error fetching user details:", error);
         res.status(500).json({ message: "Server error" });
