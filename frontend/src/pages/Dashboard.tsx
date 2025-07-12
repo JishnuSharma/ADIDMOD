@@ -6,20 +6,23 @@ import DeviceCard from "../components/dashboard/DeviceCard";
 import DeviceModal from "../components/dashboard/DeviceModal";
 import Headings from "../components/shared/Headings";
 import SearchBar from "../components/dashboard/SearchBar";
+import { useDebounce } from "../hooks/useDebounce";
 
 const Dashboard = () => {
     const [devices, setDevices] = useState<Device[]>([]);
     const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const debouncedQuery = useDebounce(searchQuery, 300);
 
-    const loadDevices = async () => {
-        const data = await getDevices();
+    const loadDevices = async (query?: string) => {
+        const data = await getDevices(query);
         setDevices(data);
     };
 
     useEffect(() => {
-        loadDevices();
-    }, []);
+        loadDevices(debouncedQuery);
+    }, [debouncedQuery]);
 
     const openModal = (device?: Device) => {
         setSelectedDevice(device ?? null);
@@ -47,7 +50,7 @@ const Dashboard = () => {
                     Total Devices: {devices.length}
                 </div>
                 <div className="flex gap-10 items-center">
-                    <SearchBar />
+                    <SearchBar value={searchQuery} onChange={setSearchQuery} />
                     <button
                         onClick={() => openModal()}
                         className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300"
@@ -58,13 +61,17 @@ const Dashboard = () => {
             </div>
 
             <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
-                {devices.map((device) => (
-                    <DeviceCard
-                        key={device.deviceID}
-                        device={device}
-                        onClick={() => openModal(device)}
-                    />
-                ))}
+                {devices.length > 0 ? (
+                    devices.map((device) => (
+                        <DeviceCard
+                            key={device.deviceID}
+                            device={device}
+                            onClick={() => openModal(device)}
+                        />
+                    ))
+                ) : (
+                    <div className="w-full text-xl text-center py-[200px]">No Devices Found</div>
+                )}
             </div>
 
             <DeviceModal

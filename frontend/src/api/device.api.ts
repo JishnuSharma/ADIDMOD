@@ -11,8 +11,10 @@ export const addDevice = async (formData: {
     return response.data;
 };
 
-export const getDevices = async () => {
-    const response = await axiosInstance.get(`${base_url}/`);
+export const getDevices = async (query?:string) => {
+    const response = await axiosInstance.get(`${base_url}/`,{
+        params: query ? { search: query } : {},
+    });
     return response.data;
 };
 

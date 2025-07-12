@@ -53,15 +53,25 @@ export const addDevice = async (req: Request, res: Response) => {
 export const devices = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.id;
+        const search = req.query.search?.toString().trim() || "";
 
-        const userDevices = await Device.find({ userId }).select(
+        const filter: any = { userId };
+
+        if (search) {
+            filter.$or = [
+                { name: { $regex: search, $options: "i" } },
+                { deviceID: { $regex: search, $options: "i" } },
+                { deviceType: { $regex: search, $options: "i" } },
+            ];
+        }
+
+        const userDevices = await Device.find(filter).select(
             "_id name deviceType fileType deviceID createdAt"
         );
 
         res.status(200).json(userDevices);
         return;
     } catch (error) {
-        console.error("Error fetching devices:", error);
         res.status(500).json({ message: "Internal Server Error" });
         return;
     }

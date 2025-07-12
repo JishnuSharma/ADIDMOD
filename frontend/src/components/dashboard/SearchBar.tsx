@@ -1,9 +1,17 @@
-const SearchBar = () => {
+type SearchBarProps = {
+    value: string;
+    onChange: (value: string) => void;
+};
+
+const SearchBar = ({ value, onChange }: SearchBarProps) => {
+
     return (
         <div className="flex items-center">
             <input
                 className="py-2 px-4 border-1 border-slate-300 rounded-tl-4xl rounded-bl-4xl min-w-sm"
                 placeholder="Search Devices"
+                onChange={(e) => onChange(e.target.value)}
+                value={value}
                 type="text"
             />
             <div className="bg-slate-400 border-1 cursor-pointer hover:bg-slate-500 transition duration-500 hover:border-slate-500 border-slate-400 py-3 px-5 rounded-tr-4xl rounded-br-4xl min-w-2.5">
