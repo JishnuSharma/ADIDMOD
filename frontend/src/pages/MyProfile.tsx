@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserDetails } from "../api/user.api";
 import ProfileForm from "../components/profile/ProfileForm";
 import { IUser } from "../types/user";
+import Loader from "../components/shared/Loader";
 
 const MyProfile = () => {
     const [user, setUser] = useState<IUser>();
@@ -20,7 +21,7 @@ const MyProfile = () => {
         fetchUserDetails();
     }, []);
 
-    if (!user) return <div>Loading...</div>;
+    if (!user) return <Loader/>;
 
     return (
         <div className="max-w-6xl mx-auto mt-10 p-10 bg-slate-100 border-2 border-slate-500 rounded-3xl shadow-lg flex flex-col lg:flex-row gap-10">
