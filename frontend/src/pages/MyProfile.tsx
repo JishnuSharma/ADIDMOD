@@ -12,7 +12,6 @@ const MyProfile = () => {
             try {
                 const data = await getUserDetails();
                 setUser(data.userObj);
-                console.log("User details:", data.userObj);
             } catch (error) {
                 console.error("Failed to fetch user details:", error);
             }

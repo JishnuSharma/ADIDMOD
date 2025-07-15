@@ -70,12 +70,8 @@ const LoginForm = () => {
                 });
 
                 setUser(response.user);
-
                 toast.success("Successfully logged in!");
-
                 navigate("/dashboard");
-
-                console.log("Login success:", response);
             } catch (err: any) {
                 console.error(
                     "Login failed:",

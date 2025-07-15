@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRoutes from './routes/user.routes';
 import deviceRoutes from './routes/device.routes';
+import processRoutes from './routes/process.routes'
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -19,5 +20,6 @@ app.use(cors({
 app.use(express.json());
 app.use('/api/users',userRoutes);
 app.use('/api/devices',deviceRoutes);
+app.use('/api/process',processRoutes);
 
 export default app;

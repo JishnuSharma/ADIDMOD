@@ -29,8 +29,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
 
     const handleSubmit = async () => {
         try {
-            const response = await updateProfile(formData);
-            console.log("Profile updated:", response);
+            await updateProfile(formData);
           toast.success("Profile Updated Successfully!");
         } catch (error) {
             console.error("Update failed:", error);

@@ -58,8 +58,6 @@ const DeviceModal = ({
             return;
         }
 
-        console.log(formData, user.id);
-
         if (!isEdit) {
             const payload = {
                 name: formData.name,

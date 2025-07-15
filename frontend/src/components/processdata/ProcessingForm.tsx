@@ -1,97 +1,181 @@
-const ProcessingForm = () => {
-  return (
-    <div className="flex items-center justify-center">
-      <form className="bg-white shadow-md rounded-lg w-[90%] p-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div>
-            <label
-              htmlFor="deviceFile"
-              className="block text-sm font-medium text-gray-700 mb-2"
+import { useState, useEffect } from "react";
+import { setProcessedData } from "../../api/processed.api";
+import { IProcess } from "../../types/process";
+import { toast } from "react-toastify";
+
+type ProcessingFormProps = {
+    deviceId: string;
+    previousData: null | IProcess;
+};
+
+const ProcessingForm = ({ deviceId, previousData }: ProcessingFormProps) => {
+    const [formData, setFormData] = useState({
+        deviceFile: null as File | null,
+        dataType: "boolean",
+        maximumValue: 0,
+        minimumValue: 0,
+        acceptablePercentage: 0,
+        deviceId: deviceId,
+    });
+
+    useEffect(() => {
+        if (previousData) {
+            setFormData((prev) => ({
+                ...prev,
+                dataType: previousData.dataType || "boolean",
+                maximumValue: previousData.maximumValue ?? "",
+                minimumValue: previousData.minimumValue ?? "",
+                acceptablePercentage: previousData.acceptablePercentage ?? "",
+                deviceId: previousData.deviceId || deviceId,
+            }));
+        }
+    }, [previousData, deviceId]);
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const { id, value, type } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [id]:
+                type === "number" ? (value === "" ? "" : Number(value)) : value,
+        }));
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setFormData((prev) => ({ ...prev, deviceFile: file }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!formData.deviceFile) return;
+
+        const payload = {
+            filePath: `/uploads/${formData.deviceFile.name}`,
+            dataType: formData.dataType,
+            maxValue: Number(formData.maximumValue),
+            minValue: Number(formData.minimumValue),
+            acceptablePercentage: Number(formData.acceptablePercentage),
+            deviceId: formData.deviceId,
+        };
+
+        try {
+            await setProcessedData(payload);
+            toast.success("Processed data saved successfully!");
+        } catch (err) {
+            console.error("Error processing data:", err);
+        }
+    };
+
+    return (
+        <div className="w-full px-4">
+            <form
+                onSubmit={handleSubmit}
+                className="bg-white rounded-xl w-full p-4 space-y-6"
             >
-              Upload Device File
-            </label>
-            <input
-              type="file"
-              id="deviceFile"
-              className="block w-full text-sm text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:border-slate-700 focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100"
-            />
-          </div>
+                <h2 className="text-xl font-semibold text-gray-800">
+                    Data Processing Configuration
+                </h2>
 
-          <div>
-            <label htmlFor="dataType" className="block text-sm font-medium text-gray-700 mb-2">
-              Select Data Type
-            </label>
-            <select
-              id="dataType"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
-            >
-              <option value="boolean">Boolean</option>
-              <option value="numeric">Numeric</option>
-            </select>
-          </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="deviceFile"
+                            className="text-sm font-medium text-gray-700 mb-1"
+                        >
+                            Upload Device File
+                        </label>
+                        <input
+                            type="file"
+                            id="deviceFile"
+                            onChange={handleFileChange}
+                            className="w-full text-sm text-gray-700 border border-gray-300 rounded-md file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 focus:border-slate-700 focus:outline-none"
+                        />
+                    </div>
 
-          <div>
-            <label htmlFor="maxValue" className="block text-sm font-medium text-gray-700 mb-2">
-              Maximum Value
-            </label>
-            <input
-              type="number"
-              id="maxValue"
-              placeholder="Enter Maximum Value"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
-            />
-          </div>
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="dataType"
+                            className="text-sm font-medium text-gray-700 mb-1"
+                        >
+                            Select Data Type
+                        </label>
+                        <select
+                            id="dataType"
+                            value={formData.dataType}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
+                        >
+                            <option value="boolean">Boolean</option>
+                            <option value="numeric">Numeric</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="maximumValue"
+                            className="text-sm font-medium text-gray-700 mb-1"
+                        >
+                            Maximum Value
+                        </label>
+                        <input
+                            type="number"
+                            id="maximumValue"
+                            value={formData.maximumValue}
+                            onChange={handleChange}
+                            placeholder="Enter Maximum Value"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="minimumValue"
+                            className="text-sm font-medium text-gray-700 mb-1"
+                        >
+                            Minimum Value
+                        </label>
+                        <input
+                            type="number"
+                            id="minimumValue"
+                            value={formData.minimumValue}
+                            onChange={handleChange}
+                            placeholder="Enter Minimum Value"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="acceptablePercentage"
+                            className="text-sm font-medium text-gray-700 mb-1"
+                        >
+                            Acceptable Percentage
+                        </label>
+                        <input
+                            type="number"
+                            id="acceptablePercentage"
+                            value={formData.acceptablePercentage}
+                            onChange={handleChange}
+                            placeholder="Enter Acceptable Percentage"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-end">
+                        <button
+                            type="submit"
+                            className="w-full bg-slate-700 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-slate-800 transition duration-200"
+                        >
+                            Process
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-          <div>
-            <label htmlFor="minValue" className="block text-sm font-medium text-gray-700 mb-2">
-              Minimum Value
-            </label>
-            <input
-              type="number"
-              id="minValue"
-              placeholder="Enter Minimum Value"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="percentage1" className="block text-sm font-medium text-gray-700 mb-2">
-              Acceptable Percentage
-            </label>
-            <input
-              type="number"
-              id="percentage1"
-              placeholder="Enter Acceptable Percentage"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="percentage2" className="block text-sm font-medium text-gray-700 mb-2">
-              Acceptable Percentage
-            </label>
-            <input
-              type="number"
-              id="percentage2"
-              placeholder="Enter Acceptable Percentage"
-              className="cursor-pointer w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 focus:border-slate-700 focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="cursor-pointer bg-slate-600 text-white px-6 py-2 rounded-md hover:bg-slate-700 transition"
-          >
-            Process
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default ProcessingForm;
