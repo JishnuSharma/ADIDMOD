@@ -2,13 +2,21 @@ import { useState, useEffect } from "react";
 import { setProcessedData } from "../../api/processed.api";
 import { IProcess } from "../../types/process";
 import { toast } from "react-toastify";
+import { IProcessedResult } from "./ProcessedResults";
 
 type ProcessingFormProps = {
     deviceId: string;
     previousData: null | IProcess;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setProcessedResults: React.Dispatch<React.SetStateAction<IProcessedResult>>;
 };
 
-const ProcessingForm = ({ deviceId, previousData }: ProcessingFormProps) => {
+const ProcessingForm = ({
+    deviceId,
+    previousData,
+    setIsLoading,
+    setProcessedResults,
+}: ProcessingFormProps) => {
     const [formData, setFormData] = useState({
         deviceFile: null as File | null,
         dataType: "boolean",
@@ -49,6 +57,7 @@ const ProcessingForm = ({ deviceId, previousData }: ProcessingFormProps) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
 
         if (!formData.deviceFile) return;
 
@@ -63,9 +72,31 @@ const ProcessingForm = ({ deviceId, previousData }: ProcessingFormProps) => {
 
         try {
             await setProcessedData(payload);
-            toast.success("Processed data saved successfully!");
+
+            const form = new FormData();
+            form.append("csv_file", formData.deviceFile);
+            form.append("lower", formData.minimumValue.toString());
+            form.append("upper", formData.maximumValue.toString());
+            form.append("attention", formData.acceptablePercentage.toString());
+            form.append("ftype", formData.dataType);
+
+            const res = await fetch(
+                "http://127.0.0.1:5000/iotapi/detect_anomalies",
+                {
+                    method: "POST",
+                    body: form,
+                }
+            );
+
+            if (!res.ok) throw new Error("Python backend error");
+
+            const result = await res.json();
+
+            setProcessedResults(result);
+            setIsLoading(false);
+            toast.success("Data analysis completed successfully!");
         } catch (err) {
-            console.error("Error processing data:", err);
+            console.error("Error:", err);
         }
     };
 

@@ -2,13 +2,24 @@ import { useEffect, useState } from "react";
 import ProcessingInfo from "../components/processdata/ProcessingInfo";
 import Headings from "../components/shared/Headings";
 import ProcessingForm from "../components/processdata/ProcessingForm";
-import ProcessedResults from "../components/processdata/ProcessedResults";
+import ProcessedResults, {
+    IProcessedResult,
+} from "../components/processdata/ProcessedResults";
 import { useQueryParam } from "../hooks/useQueryParams";
 import { getPreviousProcessedData } from "../api/processed.api";
+import Loader from "../components/shared/Loader";
 
 const ProcessData = () => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [previousData, setPreviousData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [processedResults, setProcessedResults] = useState<IProcessedResult>({
+        feedback: "",
+        image_url: "",
+        percentage_anomalies: 0,
+        total_anomalies: 0,
+        total_readings: 0,
+    });
     const deviceId = useQueryParam("device");
 
     useEffect(() => {
@@ -53,12 +64,18 @@ const ProcessData = () => {
                     <ProcessingForm
                         deviceId={deviceId}
                         previousData={previousData}
+                        setIsLoading={setIsLoading}
+                        setProcessedResults={setProcessedResults}
                     />
                 </div>
             </div>
 
             <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
-                <ProcessedResults />
+                {isLoading ? (
+                    <Loader className="h-40"/>
+                ) : processedResults.total_readings > 0 ? (
+                    <ProcessedResults results={processedResults} />
+                ) : null}
             </div>
 
             <ProcessingInfo
