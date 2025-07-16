@@ -4,6 +4,7 @@ import { DeviceTypes, FileTypes } from "../../types/device";
 import { useUser } from "../../context/UserContext";
 import { addDevice, updateDevice } from "../../api/device.api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type DeviceModalProps = {
     device?: Device;
@@ -19,6 +20,7 @@ const DeviceModal = ({
     onDeviceAdded,
 }: DeviceModalProps) => {
     const { user } = useUser();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState<Partial<Device>>({
         name: "",
@@ -148,10 +150,13 @@ const DeviceModal = ({
                     </select>
                 </div>
 
-                <div className="mt-6 text-right">
+                <div className="mt-6 text-right flex justify-between">
+                    {isEdit ? (<button onClick={() => navigate(`/process-data?device=${device?._id}`)} className="px-6 py-2 border-2 text-slate-900 border-slate-600 rounded-lg cursor-pointer hover:bg-slate-700 hover:text-white duration-300">
+                        Process Data 
+                    </button>) : <></>}
                     <button
                         onClick={handleSubmit}
-                        className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300"
+                        className="bg-slate-900 ml-auto text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300 cursor-pointer"
                     >
                         {isEdit ? "Update" : "Add"}
                     </button>
