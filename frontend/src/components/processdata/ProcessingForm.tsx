@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { setProcessedData } from "../../api/processed.api";
+import { analyzeData, setProcessedData } from "../../api/processed.api";
 import { IProcess } from "../../types/process";
 import { toast } from "react-toastify";
 import { IProcessedResult } from "./ProcessedResults";
@@ -57,46 +57,61 @@ const ProcessingForm = ({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (
+            !formData.deviceFile ||
+            !formData.acceptablePercentage ||
+            !formData.dataType ||
+            !formData.deviceId ||
+            !formData.minimumValue ||
+            !formData.maximumValue
+        ){
+            toast.error("All fields are required to start the analysis.")
+            return;
+        }
+
         setIsLoading(true);
 
-        if (!formData.deviceFile) return;
+        const {
+            deviceFile,
+            minimumValue,
+            maximumValue,
+            acceptablePercentage,
+            dataType,
+            deviceId,
+        } = formData;
 
-        const payload = {
-            filePath: `/uploads/${formData.deviceFile.name}`,
-            dataType: formData.dataType,
-            maxValue: Number(formData.maximumValue),
-            minValue: Number(formData.minimumValue),
-            acceptablePercentage: Number(formData.acceptablePercentage),
-            deviceId: formData.deviceId,
-        };
+        const numericMin = Number(minimumValue);
+        const numericMax = Number(maximumValue);
+        const numericAccept = Number(acceptablePercentage);
 
         try {
-            await setProcessedData(payload);
+            await setProcessedData({
+                filePath: `/uploads/${deviceFile.name}`,
+                dataType,
+                maxValue: numericMax,
+                minValue: numericMin,
+                acceptablePercentage: numericAccept,
+                deviceId,
+            });
 
-            const form = new FormData();
-            form.append("csv_file", formData.deviceFile);
-            form.append("lower", formData.minimumValue.toString());
-            form.append("upper", formData.maximumValue.toString());
-            form.append("attention", formData.acceptablePercentage.toString());
-            form.append("ftype", formData.dataType);
+            const res = await analyzeData({
+                deviceFile,
+                minimumValue: numericMin,
+                maximumValue: numericMax,
+                acceptablePercentage: numericAccept,
+                dataType,
+            });
 
-            const res = await fetch(
-                "http://127.0.0.1:5000/iotapi/detect_anomalies",
-                {
-                    method: "POST",
-                    body: form,
-                }
-            );
+            if (!res.success) throw new Error("Analysis failed");
 
-            if (!res.ok) throw new Error("Python backend error");
-
-            const result = await res.json();
-
-            setProcessedResults(result);
-            setIsLoading(false);
+            setProcessedResults(res.data);
             toast.success("Data analysis completed successfully!");
         } catch (err) {
             console.error("Error:", err);
+            toast.error("Something went wrong! Please try again later.");
+        } finally {
+            setIsLoading(false);
         }
     };
 

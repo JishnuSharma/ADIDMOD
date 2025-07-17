@@ -5,11 +5,15 @@ from sklearn.cluster import DBSCAN
 import matplotlib
 matplotlib.use("Agg")
 import os
+from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 from flask_cors import CORS
 
+load_dotenv()
+allowed_origin = os.getenv("ALLOWED_ORIGIN")
+
 app = Flask("iotapi")
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": allowed_origin}})
 
 @app.route('/iotapi/detect_anomalies', methods=['POST'])
 def detect_anomalies():
@@ -72,15 +76,19 @@ def detect_anomalies():
     plt.savefig(img_path, format='png')
     plt.close()
 
-    image_url = request.host_url + "static/img/" + img_filename
+    image_url = request.host_url.rstrip('/') + "/static/img/" + img_filename
 
     response_data = {
-        "total_readings": total_len,
-        "total_anomalies": total_anomalies,
-        "percentage_anomalies": percentage_anomalies,
-        "image_url": image_url,
-        "feedback": feedback
+        "success": True,
+        "data": {
+            "total_readings": total_len,
+            "total_anomalies": total_anomalies,
+            "percentage_anomalies": percentage_anomalies,
+            "image_url": image_url,
+            "feedback": feedback
+        }
     }
+
     return jsonify(response_data)
 
 if __name__ == '__main__':
