@@ -47,7 +47,7 @@ const MyProfile = () => {
                             Data Points Tested
                         </div>
                         <div className="text-xl font-semibold text-slate-700">
-                            40.2K
+                            {user.totalDataPoints}
                         </div>
                     </div>
                 </div>

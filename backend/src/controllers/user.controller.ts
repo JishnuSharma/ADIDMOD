@@ -3,6 +3,8 @@ import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Device from "../models/device.model";
+import Process from "../models/process.model";
+import mongoose from "mongoose";
 
 export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
@@ -196,10 +198,24 @@ export const userDetails = async (req: Request, res: Response) => {
         }
 
         const deviceCount = await Device.countDocuments({ userId });
+        const userObjectId =
+            mongoose.Types.ObjectId.createFromHexString(userId);
+        const dataSum = await Process.aggregate([
+            { $match: { userId: userObjectId } },
+            {
+                $group: {
+                    _id: null,
+                    totalReadings: { $sum: "$totalReadings" },
+                },
+            },
+        ]);
+
+        const totalDataPoints = dataSum[0]?.totalReadings || 0;
 
         const userObj = {
             ...user.toObject(),
             deviceCount,
+            totalDataPoints,
         };
 
         res.status(200).json({ success: true, userObj });
