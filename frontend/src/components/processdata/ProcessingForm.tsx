@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { analyzeData, setProcessedData } from "../../api/processed.api";
 import { IProcess } from "../../types/process";
 import { toast } from "react-toastify";
 import { IProcessedResult } from "./ProcessedResults";
+import { validateFormData } from "./processAndAnalyze/validateForm";
+import { processAndAnalyze } from "./processAndAnalyze/analyze";
 
 type ProcessingFormProps = {
     deviceId: string;
@@ -57,59 +58,27 @@ const ProcessingForm = ({
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        if (
-            !formData.deviceFile ||
-            !formData.acceptablePercentage ||
-            !formData.dataType ||
-            !formData.deviceId ||
-            !formData.minimumValue ||
-            !formData.maximumValue
-        ){
-            toast.error("All fields are required to start the analysis.")
-            return;
-        }
-
         setIsLoading(true);
 
-        const {
-            deviceFile,
-            minimumValue,
-            maximumValue,
-            acceptablePercentage,
-            dataType,
-            deviceId,
-        } = formData;
-
-        const numericMin = Number(minimumValue);
-        const numericMax = Number(maximumValue);
-        const numericAccept = Number(acceptablePercentage);
-
         try {
-            await setProcessedData({
-                filePath: `/uploads/${deviceFile.name}`,
+            const { deviceFile, min, max, accept, dataType, deviceId } =
+                validateFormData(formData);
+
+            const result = await processAndAnalyze({
+                fileName: deviceFile.name,
+                min,
+                max,
+                accept,
                 dataType,
-                maxValue: numericMax,
-                minValue: numericMin,
-                acceptablePercentage: numericAccept,
                 deviceId,
-            });
-
-            const res = await analyzeData({
                 deviceFile,
-                minimumValue: numericMin,
-                maximumValue: numericMax,
-                acceptablePercentage: numericAccept,
-                dataType,
             });
 
-            if (!res.success) throw new Error("Analysis failed");
-
-            setProcessedResults(res.data);
+            setProcessedResults(result);
             toast.success("Data analysis completed successfully!");
-        } catch (err) {
+        } catch (err: any) {
             console.error("Error:", err);
-            toast.error("Something went wrong! Please try again later.");
+            toast.error(err.message || "Something went wrong!");
         } finally {
             setIsLoading(false);
         }

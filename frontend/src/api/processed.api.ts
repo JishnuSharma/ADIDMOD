@@ -58,3 +58,14 @@ export const analyzeData = async (formData: {
 
     return res.data;
 };
+
+export const updateProcessMetrics = async (formData: {
+    processId: string;
+    totalReadings?: number;
+    totalAnomalies?: number;
+    percentageAnomalies?: number;
+    deviceStatus?: string;
+}) => {
+    const response = await axiosInstance.post(`${base_url}/update-metrics`, formData);
+    return response.data;
+}

@@ -8,6 +8,10 @@ export interface IProcess extends Document {
     minimumValue: number;
     acceptablePercentage: number;
     filePath: string;
+    totalReadings?: number;
+    totalAnomalies?: number;
+    percentageAnomalies?: number;
+    deviceStatus?: string;
 }
 
 const processSchema = new Schema<IProcess>({
@@ -36,7 +40,20 @@ const processSchema = new Schema<IProcess>({
     filePath: {
         type: String,
         required: true,
+    },
+    totalReadings: {
+        type: Number,
+    },
+    totalAnomalies: {
+        type: Number,
+    },
+    percentageAnomalies: {
+        type: Number,
+    },
+    deviceStatus: {
+        type: String,
     }
+
 },{timestamps:true})
 
 processSchema.set("toJSON", {
