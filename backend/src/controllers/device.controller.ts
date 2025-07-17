@@ -5,7 +5,7 @@ import Device from "../models/device.model";
 export const addDevice = async (req: Request, res: Response) => {
     try {
         const { name, deviceType, fileType } = req.body;
-        const userId = req.user?.id;
+        const userId = req.user.id;
 
         if (!name || !deviceType || !fileType || !userId) {
             res.status(400).json({
@@ -52,7 +52,7 @@ export const addDevice = async (req: Request, res: Response) => {
 
 export const devices = async (req: Request, res: Response) => {
     try {
-        const userId = req.user?.id;
+        const userId = req.user.id;
         const search = req.query.search?.toString().trim() || "";
 
         const filter: any = { userId };
@@ -79,7 +79,7 @@ export const devices = async (req: Request, res: Response) => {
 
 export const editDevice = async (req: Request, res: Response) => {
     try {
-        const userId = req.user?.id;
+        const userId = req.user.id;
         const { deviceId, name, deviceType, fileType } = req.body;
 
         if (!deviceId || !userId) {

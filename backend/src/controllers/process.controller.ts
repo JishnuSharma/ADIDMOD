@@ -30,8 +30,11 @@ export const setProcessedFields = async (req: Request, res: Response) => {
             deviceId,
         } = req.body;
 
+        const userId = req.user.id;
+
         const process = await Process.create({
             fileType: "excel",
+            userId: userId,
             deviceId: deviceId,
             dataType: dataType,
             filePath: filePath,

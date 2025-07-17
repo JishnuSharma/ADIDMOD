@@ -4,6 +4,7 @@ import { FileType } from "../utils/device.enums";
 export interface IProcess extends Document {
     fileType: FileType;
     deviceId: Types.ObjectId;
+    userId: Types.ObjectId;
     maximumValue: number;
     minimumValue: number;
     acceptablePercentage: number;
@@ -23,6 +24,11 @@ const processSchema = new Schema<IProcess>({
     deviceId: {
         type: Schema.Types.ObjectId,
         ref: "Device",
+        required: true,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
     maximumValue: {
