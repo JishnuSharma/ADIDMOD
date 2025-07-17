@@ -39,7 +39,8 @@ export const processAndAnalyze = async (params: {
         typeof result.data?.percentage_anomalies !== "number" ||
         typeof result.data?.feedback !== "string"
     ) {
-        throw new Error("Invalid analysis result");
+        
+        throw new Error(result.data.error);
     }
 
     const metricsUpdated = await updateProcessMetrics({

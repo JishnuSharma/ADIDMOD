@@ -74,11 +74,20 @@ const ProcessingForm = ({
                 deviceFile,
             });
 
+            console.log(result);
+
             setProcessedResults(result);
             toast.success("Data analysis completed successfully!");
         } catch (err: any) {
             console.error("Error:", err);
             toast.error(err.message || "Something went wrong!");
+            setProcessedResults({
+                feedback: "",
+                image_url: "",
+                percentage_anomalies: 0,
+                total_anomalies: 0,
+                total_readings: 0,
+            });
         } finally {
             setIsLoading(false);
         }

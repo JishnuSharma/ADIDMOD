@@ -36,12 +36,15 @@ def detect_anomalies():
 
     if len(filtered_readings) == 0:
         return jsonify({
-            "error": "No data points within specified bounds",
-            "total_readings": total_len,
-            "total_anomalies": len(user_defined_anomalies),
-            "percentage_anomalies": 100.0 if total_len > 0 else 0,
-            "feedback": "Requires Attention"
-        }), 400
+            "success": False,
+            "data": {
+                "error": "No data points within specified bounds",
+                "total_readings": total_len,
+                "total_anomalies": len(user_defined_anomalies),
+                "percentage_anomalies": 100.0 if total_len > 0 else 0,
+                "feedback": "Requires Attention"
+            }  
+        })
 
     filtered_readings = filtered_readings.values.reshape(-1, 1)
     dbscan_model = DBSCAN(eps=0.6, min_samples=600)
