@@ -11,31 +11,34 @@ const DeviceCard = ({ device, onClick }: DeviceCardProps) => {
     return (
         <div
             onClick={onClick}
-            className="w-80 bg-white shadow-md rounded-2xl hover:scale-105 transform transition duration-300 cursor-pointer overflow-hidden border border-gray-200"
+            className="w-80 bg-white shadow-sm rounded-2xl hover:shadow-lg hover:-translate-y-1 transform transition duration-300 cursor-pointer border border-gray-200 overflow-hidden"
         >
-            <div>
+            <div className="relative">
                 <img
                     className="w-full h-44 object-cover"
                     src={"/images/device/humidity.jpg"}
                     alt={device.deviceID}
                 />
-            </div>
-            <div className="p-4 flex flex-col gap-3 text-gray-800">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">{device.name}</h2>
-                    <span className="text-xs bg-slate-100 text-slate-800 px-2 py-1 rounded-md font-medium">
-                        {device.deviceID}
-                    </span>
+                <div className="absolute top-3 right-3 bg-white/80 text-xs text-slate-700 px-2 py-0.5 rounded-md font-medium backdrop-blur">
+                    {device.deviceID}
                 </div>
-                <div className="flex justify-between items-center text-sm text-gray-600">
-                    <span className="bg-slate-50 px-2 py-1 rounded-full">
+            </div>
+
+            <div className="p-4 flex flex-col gap-3 text-slate-800">
+                <h2 className="text-lg font-semibold truncate">
+                    {device.name}
+                </h2>
+
+                <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <span className="px-2 py-1 bg-slate-100 rounded-full">
                         {device.deviceType}
                     </span>
-                    <span className="bg-slate-50 px-2 py-1 rounded-full">
+                    <span className="px-2 py-1 bg-slate-100 rounded-full">
                         {device.fileType.toUpperCase()}
                     </span>
                 </div>
-                <div className="flex justify-between text-sm text-gray-500">
+
+                <div className="text-xs text-slate-500 flex justify-between">
                     <span>{createdAt.toLocaleDateString()}</span>
                     <span>
                         {createdAt.toLocaleTimeString([], {

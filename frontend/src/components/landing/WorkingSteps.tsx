@@ -1,43 +1,38 @@
 const steps = [
     {
         id: 1,
-        step: "Register yourself on the platform",
+        step: "Register on the platform.",
     },
     {
         id: 2,
-        step: "Add your respective IOT devices to the environment",
+        step: "Connect your IoT devices to the system.",
     },
     {
         id: 3,
-        step: "Upload the device's data in the specified format with the required parameters",
+        step: "Upload device data in the required format.",
     },
     {
         id: 4,
-        step: "Explore the indepth analysis along with visual insights",
+        step: "View detailed analysis and visual insights.",
     },
 ];
 
 const WorkingSteps = () => {
-  return (
-    <div className="flex flex-wrap justify-center gap-6 w-[98%] mx-auto mt-10">
-      {steps.map((step) => (
-        <div
-          key={step.id}
-          className="flex items-center shadow-lg bg-slate-700 rounded-tl-[50px] rounded-bl-[50px] rounded-tr-xl rounded-br-xl overflow-hidden min-w-[220px] max-w-[350px] h-25 transition-transform hover:scale-105 duration-300 cursor-pointer"
-        >
-          <div className=" ">
-            <div className="bg-white text-slate-700 border-2 border-slate-700 w-25 h-25 rounded-full flex items-center justify-center text-3xl font-extrabold shadow-md">
-              {step.id}
-            </div>
-          </div>
-
-          <div className="flex-grow flex items-center justify-center text-white text-base font-semibold px-4 text-center">
-            {step.step}
-          </div>
+    return (
+        <div className="w-[95%] mx-auto mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((step) => (
+                <div
+                    key={step.id}
+                    className="relative bg-slate-800 rounded-3xl p-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-transform duration-300 text-white text-center flex flex-col items-center justify-center"
+                >
+                    <div className="absolute -top-5 bg-white text-slate-800 border-4 border-slate-800 w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shadow-md">
+                        {step.id}
+                    </div>
+                    <p className="mt-8 text-base font-medium">{step.step}</p>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default WorkingSteps;

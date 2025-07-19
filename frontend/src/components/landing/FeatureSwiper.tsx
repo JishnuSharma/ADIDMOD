@@ -1,44 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import clsx from "clsx";
 
 const features = [
   {
-    title: 'ANOMALY VISUALIZATION',
+    title: "ANOMALY VISUALIZATION",
     points: [
-      'Anomaly visualization is a crucial feature that provides users with intuitive graphical representations of detected anomalies.',
-      'Visualizations can include charts, graphs, heatmaps, or dashboards that highlight unusual data patterns, making it easier for users to spot anomalies at a glance.',
-      'Interactive elements within the visualizations allow users to zoom in, explore specific data points, and investigate the root causes of anomalies.',
+      "Displays anomalies using charts, graphs, heatmaps, and dashboards.",
+      "Highlights unusual patterns for quick identification.",
+      "Allows zooming and inspection of specific data points.",
     ],
   },
   {
-    title: 'MULTI-DATA SOURCE INTEGRATION',
+    title: "MULTI-DATA SOURCE INTEGRATION",
     points: [
-      'In many IoT ecosystems, data originates from various sources, such as sensors, actuators, and external APIs. Multi-data source integration ensures that your anomaly detection system can handle diverse data types seamlessly.',
-      'This feature enables users to consolidate data from different IoT devices and systems into a single platform for comprehensive anomaly detection.',
-      'It allows for a holistic view of the entire IoT environment, making it possible to detect anomalies that might otherwise go unnoticed when analyzing individual data sources.',
+      "Combines data from sensors, actuators, and APIs.",
+      "Centralizes data for unified anomaly detection.",
+      "Enables a complete view of the IoT environment.",
     ],
   },
   {
-    title: 'MACHINE LEARNING MODEL CUSTOMIZATION',
+    title: "MACHINE LEARNING MODEL CUSTOMIZATION",
     points: [
-      'Customization is a powerful feature that empowers users to adapt anomaly detection models to their specific IoT use cases.',
-      'Users can fine-tune machine learning algorithms, adjust model parameters, and incorporate domain knowledge to improve detection accuracy.',
-      'Customization flexibility ensures that the system can evolve and adapt to changing data patterns and user requirements over time.',
+      "Lets users tailor models for specific use cases.",
+      "Supports tuning algorithms and parameters.",
+      "Adapts to evolving data patterns over time.",
     ],
   },
   {
-    title: 'SECURITY ASSESSMENT',
+    title: "SECURITY ASSESSMENT",
     points: [
-      'Beyond anomaly detection, security assessment features provide an added layer of protection for IoT devices and networks.',
-      'These features identify vulnerabilities and potential security threats within the IoT ecosystem, helping organizations proactively address security concerns.',
-      'By addressing security issues early, the overall safety and integrity of IoT devices and data are upheld.',
+      "Detects vulnerabilities and potential threats.",
+      "Enhances system protection alongside anomaly detection.",
+      "Improves device and data integrity.",
     ],
   },
   {
-    title: 'PREDICTIVE ANALYTICS',
+    title: "PREDICTIVE ANALYTICS",
     points: [
-      'Predictive analytics takes anomaly detection a step further by forecasting potential anomalies based on historical data trends.',
-      'This feature enables users to anticipate and prevent issues before they occur, reducing downtime and minimizing potential disruptions.',
-      'It empowers organizations to make data-driven decisions and implement preventive measures, ultimately improving the reliability and efficiency of their IoT operations.',
+      "Uses trends to forecast potential anomalies.",
+      "Helps prevent issues before they occur.",
+      "Improves reliability through data-driven actions.",
     ],
   },
 ];
@@ -54,41 +55,67 @@ const FeatureSwiper = () => {
   }, []);
 
   return (
-    <div className="w-2/4 max-w-5xl mx-auto px-4 py-12 relative">
-      <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-xl bg-gradient-to-br from-white via-gray-50 to-gray-100">
-        <div
-          className="flex transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-        >
-          {features.map((feature, idx) => (
+    <div className="w-full max-w-[1800px] mx-auto px-2 md:px-4 xl:px-6 overflow-hidden">
+      <div className="relative h-[200px] md:h-[20px] lg:h-[340px] xl:h-[360px] 2xl:h-[380px] flex items-center justify-center">
+        {features.map((feature, idx) => {
+          const isActive = idx === current;
+          const isLeft = idx === (current - 1 + features.length) % features.length;
+          const isRight = idx === (current + 1) % features.length;
+
+          return (
             <div
               key={idx}
-              className="w-full flex-shrink-0 p-8"
+              className={clsx(
+                "absolute transition-all duration-700 ease-in-out rounded-3xl border shadow-xl bg-white/90 backdrop-blur-xl",
+                "top-1/2 -translate-y-1/2 w-[95%] sm:w-[90%] md:w-[80%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] px-4 sm:px-6 md:px-8 py-10",
+                isActive &&
+                  "left-1/2 -translate-x-1/2 z-30 scale-105 opacity-100 shadow-2xl",
+                isLeft &&
+                  "left-[2%] z-20 scale-90 opacity-30 blur-sm",
+                isRight &&
+                  "right-[2%] z-20 scale-90 opacity-30 blur-sm",
+                !isActive && !isLeft && !isRight && "hidden"
+              )}
+              style={{
+                pointerEvents: isActive ? "auto" : "none",
+              }}
             >
-              <div className="text-center">
-                <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-slate-800">
-                  {feature.title}
-                </h2>
-                <ul className="text-left max-w-2xl mx-auto space-y-4 text-gray-700 text-base md:text-lg list-disc list-inside">
-                  {feature.points.map((point, i) => (
-                    <li key={i}>{point}</li>
-                  ))}
-                </ul>
-              </div>
+              <h2 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-6">
+                {feature.title}
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-sm sm:text-base md:text-lg px-2 sm:px-4 md:px-6 leading-relaxed">
+                {feature.points.map((point, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <svg
+                      className="w-5 h-5 mt-1 text-slate-600 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-
-      {/* Navigation dots */}
-      <div className="flex justify-center mt-8 space-x-3">
+      <div className="mt-12 mb-6 flex justify-center gap-2">
         {features.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`h-3 w-3 rounded-full transition-all duration-300 ${
-              i === current ? 'bg-slate-600 scale-110' : 'bg-gray-300'
-            }`}
+            className={clsx(
+              "h-2.5 w-2.5 rounded-full transition-all duration-300",
+              i === current ? "bg-slate-700 scale-110 shadow" : "bg-gray-300"
+            )}
           />
         ))}
       </div>

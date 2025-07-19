@@ -1,22 +1,23 @@
-import { PointOfNeeds } from "../../data/needs"
+import { PointOfNeeds } from "../../data/needs";
 
 const NeedForMonitoring = () => {
-  return (
-    <div className="mt-10 flex flex-wrap gap-6 w-full justify-around">
-        {PointOfNeeds.map((point) => {
-            return (
-                <div className="bg-red-400 w-[700px] rounded-2xl cursor-pointer" key={point.index}>
-                    <div className="bg-slate-700 rounded-tl-2xl rounded-tr-2xl text-lg font-bold text-white px-4 py-2 border-2 border-slate-500">
+    return (
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 w-[95%] mx-auto">
+            {PointOfNeeds.map((point) => (
+                <div
+                    key={point.index}
+                    className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-slate-200"
+                >
+                    <div className="bg-slate-800 text-white text-xl font-semibold px-6 py-4 rounded-t-2xl border-b border-slate-700">
                         {point.topic}
                     </div>
-                    <div className="px-4 py-2 text-slate-900 text-lg bg-slate-100">
+                    <div className="px-6 py-4 text-slate-800 text-base leading-relaxed">
                         {point.description}
                     </div>
                 </div>
-            )
-        })}
-    </div>
-  )
-}
+            ))}
+        </div>
+    );
+};
 
-export default NeedForMonitoring
+export default NeedForMonitoring;

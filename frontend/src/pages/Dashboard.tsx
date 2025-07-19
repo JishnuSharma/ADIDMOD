@@ -40,38 +40,47 @@ const Dashboard = () => {
     };
 
     return (
-        <div>
-            <div className="flex justify-start items-center mt-6 px-10">
-                <Headings title="DEVICE DASHBOARD" />
-            </div>
+        <div className="min-h-screen px-5 py-10 sm:px-12">
+            <div className="max-w-[90%] mx-auto">
+                <Headings title="Device Dashboard" />
 
-            <div className="flex justify-between items-center w-[95%] mx-auto mt-6">
-                <div className="text-2xl font-semibold">
-                    Total Devices: {devices.length}
-                </div>
-                <div className="flex gap-10 items-center">
-                    <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                    <button
-                        onClick={() => openModal()}
-                        className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300"
-                    >
-                        Add New Device
-                    </button>
-                </div>
-            </div>
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-8">
+                    <div className="text-lg font-medium text-gray-800">
+                        Total Devices:{" "}
+                        <span className="font-semibold text-slate-900">
+                            {devices.length}
+                        </span>
+                    </div>
 
-            <div className="flex flex-wrap w-[90%] mx-auto gap-5 mt-9">
-                {devices.length > 0 ? (
-                    devices.map((device) => (
-                        <DeviceCard
-                            key={device.deviceID}
-                            device={device}
-                            onClick={() => openModal(device)}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                        <SearchBar
+                            value={searchQuery}
+                            onChange={setSearchQuery}
                         />
-                    ))
-                ) : (
-                    <div className="w-full text-xl text-center py-[200px]">No Devices Found</div>
-                )}
+                        <button
+                            onClick={() => openModal()}
+                            className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition w-full sm:w-auto"
+                        >
+                            + Add New Device
+                        </button>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+                    {devices.length > 0 ? (
+                        devices.map((device) => (
+                            <DeviceCard
+                                key={device.deviceID}
+                                device={device}
+                                onClick={() => openModal(device)}
+                            />
+                        ))
+                    ) : (
+                        <div className="col-span-full text-center py-32 text-lg text-gray-500">
+                            No Devices Found
+                        </div>
+                    )}
+                </div>
             </div>
 
             <DeviceModal

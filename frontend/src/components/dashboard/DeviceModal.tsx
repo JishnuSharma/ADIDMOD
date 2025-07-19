@@ -25,8 +25,10 @@ const DeviceModal = ({
     const [formData, setFormData] = useState<Partial<Device>>({
         name: "",
         deviceType: DeviceTypes.TEMPERATURE,
-        fileType: "excel",
+        fileType: FileTypes.EXCEL,
     });
+
+    const isEdit = Boolean(device);
 
     useEffect(() => {
         if (device) {
@@ -57,54 +59,56 @@ const DeviceModal = ({
             !formData.fileType ||
             !user
         ) {
+            toast.error("Please fill all fields correctly.");
             return;
         }
 
-        if (!isEdit) {
-            const payload = {
-                name: formData.name,
-                deviceType: formData.deviceType,
-                fileType: formData.fileType,
-            };
-            await addDevice(payload);
-            toast.success("Device added successfully!");
-        } else if (device?.deviceID) {
-            const payload = {
-                name: formData.name,
-                deviceType: formData.deviceType,
-                fileType: formData.fileType,
-                deviceId: device._id,
-            };
-            await updateDevice(payload);
-            toast.success("Device updated successfully");
-        } else {
-            toast.error("Error updating device! Try again later");
+        try {
+            if (!isEdit) {
+                await addDevice({
+                    name: formData.name,
+                    deviceType: formData.deviceType,
+                    fileType: formData.fileType,
+                });
+                toast.success("Device added successfully!");
+            } else if (device?.deviceID) {
+                await updateDevice({
+                    name: formData.name,
+                    deviceType: formData.deviceType,
+                    fileType: formData.fileType,
+                    deviceId: device._id,
+                });
+                toast.success("Device updated successfully!");
+            } else {
+                toast.error("Invalid device ID. Try again.");
+            }
+
+            setFormData({
+                name: "",
+                deviceType: DeviceTypes.TEMPERATURE,
+                fileType: FileTypes.EXCEL,
+            });
+
+            onDeviceAdded();
+            onClose();
+        } catch {
+            toast.error("Something went wrong. Try again later.");
         }
-
-        setFormData({
-            name: "",
-            deviceType: DeviceTypes.TEMPERATURE,
-            fileType: FileTypes.EXCEL,
-        });
-
-        onDeviceAdded();
-        onClose();
     };
 
     if (!isOpen) return null;
 
-    const isEdit = Boolean(device);
-
     return (
-        <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-2xl relative animate-fade-in">
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold cursor-pointer"
+                    className="absolute top-3 right-3 text-xl font-bold text-gray-400 hover:text-gray-700"
                 >
                     &times;
                 </button>
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6">
                     {isEdit ? "Edit Device" : "Add New Device"}
                 </h2>
 
@@ -114,14 +118,14 @@ const DeviceModal = ({
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Device Name"
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
                     />
 
                     <select
                         name="deviceType"
                         value={formData.deviceType}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
                     >
                         <option disabled value="">
                             Select Device Type
@@ -137,7 +141,7 @@ const DeviceModal = ({
                         name="fileType"
                         value={formData.fileType}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 px-3 py-2 rounded-md"
+                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
                     >
                         <option disabled value="">
                             Select File Type
@@ -150,13 +154,21 @@ const DeviceModal = ({
                     </select>
                 </div>
 
-                <div className="mt-6 text-right flex justify-between">
-                    {isEdit ? (<button onClick={() => navigate(`/process-data?device=${device?._id}`)} className="px-6 py-2 border-2 text-slate-900 border-slate-600 rounded-lg cursor-pointer hover:bg-slate-700 hover:text-white duration-300">
-                        Process Data 
-                    </button>) : <></>}
+                <div className="mt-6 flex justify-between">
+                    {isEdit && (
+                        <button
+                            onClick={() =>
+                                navigate(`/process-data?device=${device?._id}`)
+                            }
+                            className="rounded-lg border-2 border-slate-700 px-6 py-2 text-slate-900 hover:bg-slate-700 hover:text-white transition duration-300"
+                        >
+                            Process Data
+                        </button>
+                    )}
+
                     <button
                         onClick={handleSubmit}
-                        className="bg-slate-900 ml-auto text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition duration-300 cursor-pointer"
+                        className="ml-auto rounded-lg bg-slate-900 px-6 py-2 text-white hover:bg-slate-800 transition duration-300"
                     >
                         {isEdit ? "Update" : "Add"}
                     </button>
