@@ -5,6 +5,7 @@ from sklearn.cluster import DBSCAN
 import matplotlib
 matplotlib.use("Agg")
 import os
+import uuid
 from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 from flask_cors import CORS
@@ -63,7 +64,7 @@ def detect_anomalies():
 
     static_img_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "img")
     os.makedirs(static_img_dir, exist_ok=True)
-    img_filename = "anomaly_plot.png"
+    img_filename = f"anomaly_plot_{uuid.uuid4().hex}.png"
     img_path = os.path.join(static_img_dir, img_filename)
 
     plt.figure(figsize=(12, 6))
